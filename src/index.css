@@ -2,57 +2,83 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* GRC SaaS Platform Design System - Professional Enterprise Theme */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Core Brand Colors - Professional Blue Palette */
+    --background: 210 20% 98%;
+    --foreground: 215 25% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 215 25% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 215 25% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary - Enterprise Blue */
+    --primary: 215 85% 45%;
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 215 85% 40%;
+    --primary-light: 215 85% 95%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary - Professional Gray */
+    --secondary: 215 15% 92%;
+    --secondary-foreground: 215 25% 25%;
+    --secondary-hover: 215 15% 88%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Success - Compliance Green */
+    --success: 145 65% 45%;
+    --success-foreground: 0 0% 100%;
+    --success-light: 145 65% 95%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Warning - Risk Orange */
+    --warning: 35 85% 55%;
+    --warning-foreground: 0 0% 100%;
+    --warning-light: 35 85% 95%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Danger - Critical Red */
+    --danger: 0 85% 60%;
+    --danger-foreground: 0 0% 100%;
+    --danger-light: 0 85% 95%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --muted: 215 15% 95%;
+    --muted-foreground: 215 20% 50%;
 
-    --radius: 0.5rem;
+    --accent: 215 85% 50%;
+    --accent-foreground: 0 0% 100%;
 
-    --sidebar-background: 0 0% 98%;
+    --destructive: 0 85% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
+    --border: 215 20% 88%;
+    --input: 215 20% 95%;
+    --ring: 215 85% 45%;
 
-    --sidebar-primary: 240 5.9% 10%;
+    --radius: 0.75rem;
 
-    --sidebar-primary-foreground: 0 0% 98%;
+    /* Gradients for professional depth */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(215 85% 35%));
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary)), hsl(215 15% 85%));
+    --gradient-success: linear-gradient(135deg, hsl(var(--success)), hsl(145 65% 35%));
+    --gradient-warning: linear-gradient(135deg, hsl(var(--warning)), hsl(35 85% 45%));
+    --gradient-danger: linear-gradient(135deg, hsl(var(--danger)), hsl(0 85% 50%));
 
-    --sidebar-accent: 240 4.8% 95.9%;
+    /* Shadows for elevation */
+    --shadow-sm: 0 2px 4px -1px hsl(215 25% 25% / 0.1), 0 1px 2px -1px hsl(215 25% 25% / 0.06);
+    --shadow-md: 0 4px 6px -1px hsl(215 25% 25% / 0.1), 0 2px 4px -1px hsl(215 25% 25% / 0.06);
+    --shadow-lg: 0 10px 15px -3px hsl(215 25% 25% / 0.1), 0 4px 6px -2px hsl(215 25% 25% / 0.05);
+    --shadow-xl: 0 20px 25px -5px hsl(215 25% 25% / 0.1), 0 10px 10px -5px hsl(215 25% 25% / 0.04);
 
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Sidebar - Enterprise Navigation */
+    --sidebar-background: 215 25% 15%;
+    --sidebar-foreground: 215 15% 85%;
+    --sidebar-primary: 215 85% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 215 25% 20%;
+    --sidebar-accent-foreground: 215 15% 90%;
+    --sidebar-border: 215 25% 25%;
+    --sidebar-ring: 215 85% 45%;
   }
 
   .dark {
