@@ -10,7 +10,7 @@ export function Dashboard() {
     <div className="space-y-6">
       {/* Page Header */}
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">GRC Dashboard</h1>
+        <h1 className="text-3xl font-bold tracking-tight">TITANIS™ Dashboard</h1>
         <p className="text-muted-foreground">
           Monitor your organization's governance, risk, and compliance posture
         </p>

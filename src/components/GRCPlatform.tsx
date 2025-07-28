@@ -8,6 +8,7 @@ import { PolicyManagement } from "./policies/PolicyManagement";
 import { AuditManagement } from "./audits/AuditManagement";
 import { IncidentManagement } from "./incidents/IncidentManagement";
 import { AnalyticsReporting } from "./analytics/AnalyticsReporting";
+import { VendorManagement } from "./vendor/VendorManagement";
 
 // Placeholder components for remaining modules
 const PlaceholderComponent = ({ title }: { title: string }) => (
@@ -45,6 +46,8 @@ export function GRCPlatform() {
         return <IncidentManagement />;
       case "analytics":
         return <AnalyticsReporting />;
+      case "vendors":
+        return <VendorManagement />;
       case "knowledge":
         return <PlaceholderComponent title="Knowledge Base" />;
       case "team":

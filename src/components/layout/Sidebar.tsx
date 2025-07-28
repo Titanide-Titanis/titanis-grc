@@ -15,7 +15,8 @@ import {
   Search,
   Bell,
   Menu,
-  X
+  X,
+  Building2
 } from "lucide-react";
 
 interface SidebarProps {
@@ -30,6 +31,7 @@ const navigation = [
   { id: 'policies', name: 'Policies', icon: FileText },
   { id: 'audits', name: 'Audits', icon: Search },
   { id: 'incidents', name: 'Incidents', icon: Shield },
+  { id: 'vendors', name: 'Vendor Management', icon: Building2 },
   { id: 'analytics', name: 'Analytics', icon: BarChart3 },
   { id: 'knowledge', name: 'Knowledge Base', icon: BookOpen },
   { id: 'team', name: 'Team', icon: Users },
@@ -49,7 +51,7 @@ export function Sidebar({ activeTab, onTabChange }: SidebarProps) {
         {!isCollapsed && (
           <div className="flex items-center space-x-2">
             <Shield className="h-8 w-8 text-sidebar-primary" />
-            <span className="text-xl font-bold text-sidebar-foreground">NexusGRC</span>
+            <span className="text-xl font-bold text-sidebar-foreground">TITANIS™</span>
           </div>
         )}
         <Button
