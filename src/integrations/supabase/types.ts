@@ -163,6 +163,90 @@ export type Database = {
           },
         ]
       }
+      auth_audit_logs: {
+        Row: {
+          created_at: string
+          event_type: string
+          id: string
+          ip_address: unknown | null
+          metadata: Json | null
+          success: boolean
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          event_type: string
+          id?: string
+          ip_address?: unknown | null
+          metadata?: Json | null
+          success?: boolean
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          event_type?: string
+          id?: string
+          ip_address?: unknown | null
+          metadata?: Json | null
+          success?: boolean
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      auth_settings: {
+        Row: {
+          created_at: string
+          enable_captcha_after_attempts: number
+          enable_leaked_password_check: boolean
+          id: string
+          lockout_duration_minutes: number
+          max_login_attempts: number
+          organization_id: string
+          otp_expiry_seconds: number
+          password_min_length: number
+          require_lowercase: boolean
+          require_numbers: boolean
+          require_symbols: boolean
+          require_uppercase: boolean
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          enable_captcha_after_attempts?: number
+          enable_leaked_password_check?: boolean
+          id?: string
+          lockout_duration_minutes?: number
+          max_login_attempts?: number
+          organization_id: string
+          otp_expiry_seconds?: number
+          password_min_length?: number
+          require_lowercase?: boolean
+          require_numbers?: boolean
+          require_symbols?: boolean
+          require_uppercase?: boolean
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          enable_captcha_after_attempts?: number
+          enable_leaked_password_check?: boolean
+          id?: string
+          lockout_duration_minutes?: number
+          max_login_attempts?: number
+          organization_id?: string
+          otp_expiry_seconds?: number
+          password_min_length?: number
+          require_lowercase?: boolean
+          require_numbers?: boolean
+          require_symbols?: boolean
+          require_uppercase?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
       compliance_frameworks: {
         Row: {
           created_at: string
@@ -351,6 +435,33 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      failed_login_attempts: {
+        Row: {
+          attempted_at: string
+          email: string
+          id: string
+          ip_address: unknown
+          organization_id: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          attempted_at?: string
+          email: string
+          id?: string
+          ip_address: unknown
+          organization_id?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          attempted_at?: string
+          email?: string
+          id?: string
+          ip_address?: unknown
+          organization_id?: string | null
+          user_agent?: string | null
+        }
+        Relationships: []
       }
       incidents: {
         Row: {
