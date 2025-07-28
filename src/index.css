@@ -2,83 +2,85 @@
 @tailwind components;
 @tailwind utilities;
 
-/* GRC SaaS Platform Design System - Professional Enterprise Theme */
+/* TITANIS™ - Titanide's Leading Enterprise GRC Platform Design System */
 
 @layer base {
   :root {
-    /* Core Brand Colors - Professional Blue Palette */
+    /* Core Brand Colors - Titanium Professional Palette */
     --background: 210 20% 98%;
-    --foreground: 215 25% 15%;
+    --foreground: 204 25% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 215 25% 15%;
+    --card-foreground: 204 25% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 15%;
+    --popover-foreground: 204 25% 15%;
 
-    /* Primary - Enterprise Blue */
-    --primary: 215 85% 45%;
+    /* Primary - Titanium Blue (inspired by ServiceTitan) */
+    --primary: 204 85% 45%;
     --primary-foreground: 0 0% 100%;
-    --primary-hover: 215 85% 40%;
-    --primary-light: 215 85% 95%;
+    --primary-hover: 204 85% 40%;
+    --primary-light: 204 85% 95%;
 
-    /* Secondary - Professional Gray */
-    --secondary: 215 15% 92%;
-    --secondary-foreground: 215 25% 25%;
-    --secondary-hover: 215 15% 88%;
+    /* Secondary - Titanium Steel Gray */
+    --secondary: 204 15% 92%;
+    --secondary-foreground: 204 25% 25%;
+    --secondary-hover: 204 15% 88%;
 
-    /* Success - Compliance Green */
-    --success: 145 65% 45%;
+    /* Success - Enterprise Green */
+    --success: 145 60% 42%;
     --success-foreground: 0 0% 100%;
-    --success-light: 145 65% 95%;
+    --success-light: 145 60% 95%;
 
-    /* Warning - Risk Orange */
-    --warning: 35 85% 55%;
+    /* Warning - Professional Amber */
+    --warning: 35 80% 50%;
     --warning-foreground: 0 0% 100%;
-    --warning-light: 35 85% 95%;
+    --warning-light: 35 80% 95%;
 
     /* Danger - Critical Red */
-    --danger: 0 85% 60%;
+    --danger: 0 80% 58%;
     --danger-foreground: 0 0% 100%;
-    --danger-light: 0 85% 95%;
+    --danger-light: 0 80% 95%;
 
-    --muted: 215 15% 95%;
-    --muted-foreground: 215 20% 50%;
+    --muted: 204 15% 95%;
+    --muted-foreground: 204 20% 50%;
 
-    --accent: 215 85% 50%;
+    --accent: 204 85% 50%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 85% 60%;
+    --destructive: 0 80% 58%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 215 20% 88%;
-    --input: 215 20% 95%;
-    --ring: 215 85% 45%;
+    --border: 204 20% 88%;
+    --input: 204 20% 95%;
+    --ring: 204 85% 45%;
 
     --radius: 0.75rem;
 
-    /* Gradients for professional depth */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(215 85% 35%));
-    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary)), hsl(215 15% 85%));
-    --gradient-success: linear-gradient(135deg, hsl(var(--success)), hsl(145 65% 35%));
-    --gradient-warning: linear-gradient(135deg, hsl(var(--warning)), hsl(35 85% 45%));
-    --gradient-danger: linear-gradient(135deg, hsl(var(--danger)), hsl(0 85% 50%));
+    /* TITANIS™ Titanium Gradients for depth and elegance */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(204 85% 35%));
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary)), hsl(204 15% 85%));
+    --gradient-success: linear-gradient(135deg, hsl(var(--success)), hsl(145 60% 32%));
+    --gradient-warning: linear-gradient(135deg, hsl(var(--warning)), hsl(35 80% 40%));
+    --gradient-danger: linear-gradient(135deg, hsl(var(--danger)), hsl(0 80% 48%));
+    --gradient-titanium: linear-gradient(135deg, hsl(204 85% 45%), hsl(204 70% 65%));
 
-    /* Shadows for elevation */
-    --shadow-sm: 0 2px 4px -1px hsl(215 25% 25% / 0.1), 0 1px 2px -1px hsl(215 25% 25% / 0.06);
-    --shadow-md: 0 4px 6px -1px hsl(215 25% 25% / 0.1), 0 2px 4px -1px hsl(215 25% 25% / 0.06);
-    --shadow-lg: 0 10px 15px -3px hsl(215 25% 25% / 0.1), 0 4px 6px -2px hsl(215 25% 25% / 0.05);
-    --shadow-xl: 0 20px 25px -5px hsl(215 25% 25% / 0.1), 0 10px 10px -5px hsl(215 25% 25% / 0.04);
+    /* Professional shadows with titanium undertones */
+    --shadow-sm: 0 2px 4px -1px hsl(204 25% 25% / 0.1), 0 1px 2px -1px hsl(204 25% 25% / 0.06);
+    --shadow-md: 0 4px 6px -1px hsl(204 25% 25% / 0.1), 0 2px 4px -1px hsl(204 25% 25% / 0.06);
+    --shadow-lg: 0 10px 15px -3px hsl(204 25% 25% / 0.1), 0 4px 6px -2px hsl(204 25% 25% / 0.05);
+    --shadow-xl: 0 20px 25px -5px hsl(204 25% 25% / 0.1), 0 10px 10px -5px hsl(204 25% 25% / 0.04);
+    --shadow-titanium: 0 8px 25px -5px hsl(204 85% 45% / 0.15), 0 4px 10px -5px hsl(204 85% 45% / 0.08);
 
-    /* Sidebar - Enterprise Navigation */
-    --sidebar-background: 215 25% 15%;
-    --sidebar-foreground: 215 15% 85%;
-    --sidebar-primary: 215 85% 45%;
+    /* TITANIS™ Enterprise Navigation */
+    --sidebar-background: 204 25% 15%;
+    --sidebar-foreground: 204 15% 85%;
+    --sidebar-primary: 204 85% 45%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 215 25% 20%;
-    --sidebar-accent-foreground: 215 15% 90%;
-    --sidebar-border: 215 25% 25%;
-    --sidebar-ring: 215 85% 45%;
+    --sidebar-accent: 204 25% 20%;
+    --sidebar-accent-foreground: 204 15% 90%;
+    --sidebar-border: 204 25% 25%;
+    --sidebar-ring: 204 85% 45%;
   }
 
   .dark {
