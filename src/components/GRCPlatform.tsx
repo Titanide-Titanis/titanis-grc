@@ -5,11 +5,8 @@ import { Dashboard } from "./dashboard/Dashboard";
 import { RiskManagement } from "./risk/RiskManagement";
 import { ComplianceTracking } from "./compliance/ComplianceTracking";
 import { PolicyManagement } from "./policies/PolicyManagement";
-import { AuditManagement } from "./audits/AuditManagement";
-import { IncidentManagement } from "./incidents/IncidentManagement";
-import { AnalyticsReporting } from "./analytics/AnalyticsReporting";
 
-// Placeholder components for remaining modules
+// Placeholder components for other modules
 const PlaceholderComponent = ({ title }: { title: string }) => (
   <div className="space-y-6">
     <div>
@@ -40,11 +37,11 @@ export function GRCPlatform() {
       case "policies":
         return <PolicyManagement />;
       case "audits":
-        return <AuditManagement />;
+        return <PlaceholderComponent title="Audit Management" />;
       case "incidents":
-        return <IncidentManagement />;
+        return <PlaceholderComponent title="Incident Management" />;
       case "analytics":
-        return <AnalyticsReporting />;
+        return <PlaceholderComponent title="Analytics & Reporting" />;
       case "knowledge":
         return <PlaceholderComponent title="Knowledge Base" />;
       case "team":

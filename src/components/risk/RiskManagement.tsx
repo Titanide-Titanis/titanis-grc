@@ -176,203 +176,39 @@ export function RiskManagement() {
         </TabsContent>
 
         <TabsContent value="assessment">
-          <div className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Risk Assessment Framework</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-4">
-                    <h3 className="font-semibold">Assessment Methodologies</h3>
-                    <div className="space-y-2">
-                      {["Qualitative Assessment", "Quantitative Analysis", "Scenario-Based Assessment", "Threat Modeling"].map((method) => (
-                        <div key={method} className="flex items-center justify-between p-3 border rounded-lg">
-                          <span>{method}</span>
-                          <Button variant="outline" size="sm">Use Template</Button>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="space-y-4">
-                    <h3 className="font-semibold">Risk Scoring Matrix</h3>
-                    <div className="grid grid-cols-6 gap-1 text-xs">
-                      <div></div>
-                      <div className="text-center font-medium">1</div>
-                      <div className="text-center font-medium">2</div>
-                      <div className="text-center font-medium">3</div>
-                      <div className="text-center font-medium">4</div>
-                      <div className="text-center font-medium">5</div>
-                      {[5,4,3,2,1].map(impact => (
-                        <>
-                          <div key={impact} className="text-center font-medium">{impact}</div>
-                          {[1,2,3,4,5].map(likelihood => {
-                            const score = impact * likelihood;
-                            const color = score >= 15 ? "bg-danger text-danger-foreground" : 
-                                         score >= 8 ? "bg-warning text-warning-foreground" : 
-                                         "bg-success text-success-foreground";
-                            return <div key={likelihood} className={`${color} text-center p-1 rounded text-xs`}>{score}</div>
-                          })}
-                        </>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+          <Card>
+            <CardHeader>
+              <CardTitle>Risk Assessment Framework</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground">Risk assessment tools and methodologies coming soon...</p>
+            </CardContent>
+          </Card>
         </TabsContent>
 
         <TabsContent value="heatmap">
-          <div className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Risk Heat Map</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <h3 className="font-semibold">Current Risk Landscape</h3>
-                    <div className="flex space-x-2">
-                      <Button variant="outline" size="sm">Filter by Category</Button>
-                      <Button variant="outline" size="sm">Export</Button>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-6 gap-2">
-                    <div></div>
-                    <div className="text-center text-sm font-medium">Very Low</div>
-                    <div className="text-center text-sm font-medium">Low</div>
-                    <div className="text-center text-sm font-medium">Medium</div>
-                    <div className="text-center text-sm font-medium">High</div>
-                    <div className="text-center text-sm font-medium">Very High</div>
-                    
-                    {["Critical", "High", "Medium", "Low", "Very Low"].map((impact, i) => (
-                      <>
-                        <div key={impact} className="text-sm font-medium text-right">{impact}</div>
-                        {[1,2,3,4,5].map((likelihood, j) => {
-                          const riskCount = Math.floor(Math.random() * 5) + 1;
-                          const intensity = (5-i) * likelihood;
-                          const bgColor = intensity >= 15 ? "bg-danger/80 hover:bg-danger" : 
-                                         intensity >= 8 ? "bg-warning/80 hover:bg-warning" : 
-                                         "bg-success/80 hover:bg-success";
-                          return (
-                            <div key={j} className={`${bgColor} p-4 rounded cursor-pointer transition-colors flex items-center justify-center text-white font-medium`}>
-                              {riskCount}
-                            </div>
-                          );
-                        })}
-                      </>
-                    ))}
-                  </div>
-                  <div className="flex justify-center space-x-4 text-sm">
-                    <div className="flex items-center space-x-1">
-                      <div className="w-3 h-3 bg-success rounded"></div>
-                      <span>Low Risk</span>
-                    </div>
-                    <div className="flex items-center space-x-1">
-                      <div className="w-3 h-3 bg-warning rounded"></div>
-                      <span>Medium Risk</span>
-                    </div>
-                    <div className="flex items-center space-x-1">
-                      <div className="w-3 h-3 bg-danger rounded"></div>
-                      <span>High Risk</span>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+          <Card>
+            <CardHeader>
+              <CardTitle>Risk Heat Map</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground">Interactive risk heat map visualization coming soon...</p>
+            </CardContent>
+          </Card>
         </TabsContent>
 
         <TabsContent value="analytics">
-          <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="flex items-center">
-                    <div className="text-2xl font-bold">23</div>
-                    <div className="ml-auto">
-                      <AlertTriangle className="h-4 w-4 text-danger" />
-                    </div>
-                  </div>
-                  <p className="text-xs text-muted-foreground">High Risk Issues</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="flex items-center">
-                    <div className="text-2xl font-bold">7.8</div>
-                    <div className="ml-auto">
-                      <BarChart3 className="h-4 w-4 text-primary" />
-                    </div>
-                  </div>
-                  <p className="text-xs text-muted-foreground">Average Risk Score</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="flex items-center">
-                    <div className="text-2xl font-bold">15</div>
-                    <div className="ml-auto">
-                      <Clock className="h-4 w-4 text-warning" />
-                    </div>
-                  </div>
-                  <p className="text-xs text-muted-foreground">Overdue Mitigations</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="flex items-center">
-                    <div className="text-2xl font-bold">89%</div>
-                    <div className="ml-auto">
-                      <User className="h-4 w-4 text-success" />
-                    </div>
-                  </div>
-                  <p className="text-xs text-muted-foreground">Mitigation Rate</p>
-                </CardContent>
-              </Card>
-            </div>
-            
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <BarChart3 className="h-5 w-5 mr-2" />
-                  Risk Trends & Analytics
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="font-semibold mb-3">Risk by Category</h3>
-                    <div className="space-y-2">
-                      {[
-                        { category: "Data Security", count: 12, percentage: 35 },
-                        { category: "Operational Risk", count: 8, percentage: 24 },
-                        { category: "Third-Party Risk", count: 7, percentage: 21 },
-                        { category: "Compliance Risk", count: 7, percentage: 20 }
-                      ].map(item => (
-                        <div key={item.category} className="flex items-center justify-between">
-                          <span className="text-sm">{item.category}</span>
-                          <div className="flex items-center space-x-2">
-                            <div className="w-20 bg-muted rounded-full h-2">
-                              <div className="bg-primary h-2 rounded-full" style={{width: `${item.percentage}%`}}></div>
-                            </div>
-                            <span className="text-sm font-medium w-8">{item.count}</span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-3">Monthly Risk Assessment</h3>
-                    <div className="text-sm text-muted-foreground">
-                      Risk assessment trends and mitigation progress tracking with detailed reporting capabilities.
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <BarChart3 className="h-5 w-5 mr-2" />
+                Risk Analytics
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground">Risk trend analysis and reporting coming soon...</p>
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>
