@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { NewIncidentDialog } from "@/components/dialogs/NewIncidentDialog";
 import { 
   Plus, 
   Search, 
@@ -115,6 +116,7 @@ const getSeverityColor = (severity: string) => {
 
 export function IncidentManagement() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [showNewIncidentDialog, setShowNewIncidentDialog] = useState(false);
 
   const filteredIncidents = incidents.filter(incident =>
     incident.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -136,7 +138,7 @@ export function IncidentManagement() {
             <Bell className="h-4 w-4 mr-2" />
             Alerts
           </Button>
-          <Button>
+          <Button onClick={() => setShowNewIncidentDialog(true)}>
             <Plus className="h-4 w-4 mr-2" />
             Report Incident
           </Button>
@@ -482,6 +484,15 @@ export function IncidentManagement() {
           </div>
         </TabsContent>
       </Tabs>
+
+      <NewIncidentDialog 
+        open={showNewIncidentDialog}
+        onOpenChange={setShowNewIncidentDialog}
+        onIncidentCreated={() => {
+          // Refresh incident data when a new incident is created
+          console.log('Incident created successfully');
+        }}
+      />
     </div>
   );
 }

@@ -206,11 +206,8 @@ export default function Auth() {
                 <p className="text-sm text-muted-foreground -mt-1">by Titanide Consulting</p>
               </div>
             </div>
-            <p className="text-xl lg:text-2xl text-muted-foreground mb-2">
-              Titanide's Leading Enterprise Governance,
-            </p>
             <p className="text-xl lg:text-2xl text-muted-foreground mb-8">
-              Risk & Compliance Platform
+              Titanide's Leading Enterprise Governance, Risk & Compliance Platform
             </p>
             <div className="w-32 h-1 bg-gradient-to-r from-primary to-primary/50 mx-auto lg:mx-0 rounded-full"></div>
           </div>

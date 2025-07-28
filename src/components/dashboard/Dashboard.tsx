@@ -14,7 +14,7 @@ export function Dashboard() {
           TITANIS™ Dashboard
         </h1>
         <p className="text-lg text-muted-foreground">
-          Titanide's Leading Enterprise Governance, Risk & Compliance Platform
+          Titanide's Proprietary Enterprise Governance, Risk & Compliance Platform
         </p>
         <div className="w-24 h-1 bg-gradient-to-r from-primary to-primary/50 mx-auto rounded-full"></div>
       </div>

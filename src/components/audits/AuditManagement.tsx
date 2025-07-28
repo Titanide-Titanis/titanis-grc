@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
+import { NewAuditDialog } from "@/components/dialogs/NewAuditDialog";
 import { 
   Plus, 
   Search, 
@@ -113,6 +114,7 @@ const getPriorityColor = (priority: string) => {
 
 export function AuditManagement() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [showNewAuditDialog, setShowNewAuditDialog] = useState(false);
 
   const filteredAudits = audits.filter(audit =>
     audit.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -134,7 +136,7 @@ export function AuditManagement() {
             <Download className="h-4 w-4 mr-2" />
             Export Schedule
           </Button>
-          <Button>
+          <Button onClick={() => setShowNewAuditDialog(true)}>
             <Plus className="h-4 w-4 mr-2" />
             New Audit
           </Button>
@@ -419,6 +421,15 @@ export function AuditManagement() {
           </div>
         </TabsContent>
       </Tabs>
+
+      <NewAuditDialog 
+        open={showNewAuditDialog}
+        onOpenChange={setShowNewAuditDialog}
+        onAuditCreated={() => {
+          // Refresh audit data when a new audit is created
+          console.log('Audit created successfully');
+        }}
+      />
     </div>
   );
 }

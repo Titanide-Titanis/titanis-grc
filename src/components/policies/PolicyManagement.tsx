@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { NewPolicyDialog } from "@/components/dialogs/NewPolicyDialog";
 import { 
   Plus, 
   Search, 
@@ -102,6 +103,7 @@ const getStatusIcon = (status: string) => {
 export function PolicyManagement() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [showNewPolicyDialog, setShowNewPolicyDialog] = useState(false);
 
   const filteredPolicies = policies.filter(policy => {
     const matchesSearch = policy.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -122,7 +124,7 @@ export function PolicyManagement() {
             Manage organizational policies and procedures
           </p>
         </div>
-        <Button>
+        <Button onClick={() => setShowNewPolicyDialog(true)}>
           <Plus className="h-4 w-4 mr-2" />
           New Policy
         </Button>
@@ -532,6 +534,15 @@ export function PolicyManagement() {
           </div>
         </TabsContent>
       </Tabs>
+
+      <NewPolicyDialog 
+        open={showNewPolicyDialog}
+        onOpenChange={setShowNewPolicyDialog}
+        onPolicyCreated={() => {
+          // Refresh policy data when a new policy is created
+          console.log('Policy created successfully');
+        }}
+      />
     </div>
   );
 }

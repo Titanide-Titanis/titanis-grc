@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { NewVendorDialog } from "@/components/dialogs/NewVendorDialog";
 import { 
   Search, 
   Filter, 
@@ -114,6 +115,7 @@ const getStatusColor = (status: string) => {
 
 export function VendorManagement() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [showNewVendorDialog, setShowNewVendorDialog] = useState(false);
 
   const filteredVendors = vendors.filter(vendor =>
     vendor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -135,7 +137,7 @@ export function VendorManagement() {
             <FileText className="mr-2 h-4 w-4" />
             Export Report
           </Button>
-          <Button>
+          <Button onClick={() => setShowNewVendorDialog(true)}>
             <Plus className="mr-2 h-4 w-4" />
             Add Vendor
           </Button>
@@ -358,6 +360,15 @@ export function VendorManagement() {
           </div>
         </TabsContent>
       </Tabs>
+
+      <NewVendorDialog 
+        open={showNewVendorDialog}
+        onOpenChange={setShowNewVendorDialog}
+        onVendorCreated={() => {
+          // Refresh vendor data when a new vendor is created
+          console.log('Vendor created successfully');
+        }}
+      />
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { NewRiskDialog } from "@/components/dialogs/NewRiskDialog";
 import { 
   Plus, 
   Search, 
@@ -70,6 +71,7 @@ const getStatusColor = (status: string) => {
 
 export function RiskManagement() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [showNewRiskDialog, setShowNewRiskDialog] = useState(false);
 
   const filteredRisks = risks.filter(risk =>
     risk.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -86,7 +88,7 @@ export function RiskManagement() {
             Identify, assess, and mitigate organizational risks
           </p>
         </div>
-        <Button>
+        <Button onClick={() => setShowNewRiskDialog(true)}>
           <Plus className="h-4 w-4 mr-2" />
           New Risk Assessment
         </Button>
@@ -375,6 +377,15 @@ export function RiskManagement() {
           </div>
         </TabsContent>
       </Tabs>
+
+      <NewRiskDialog 
+        open={showNewRiskDialog}
+        onOpenChange={setShowNewRiskDialog}
+        onRiskCreated={() => {
+          // Refresh risk data when a new risk is created
+          console.log('Risk created successfully');
+        }}
+      />
     </div>
   );
 }
