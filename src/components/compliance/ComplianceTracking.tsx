@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,7 @@ import {
   Plus,
   Download
 } from "lucide-react";
+import { NewComplianceAssessmentDialog } from "@/components/dialogs/NewComplianceAssessmentDialog";
 
 const frameworks = [
   {
@@ -96,6 +98,8 @@ const getJurisdictionFlag = (jurisdiction: string) => {
 };
 
 export function ComplianceTracking() {
+  const [showNewAssessmentDialog, setShowNewAssessmentDialog] = useState(false);
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -111,7 +115,7 @@ export function ComplianceTracking() {
             <Download className="h-4 w-4 mr-2" />
             Export Report
           </Button>
-          <Button>
+          <Button onClick={() => setShowNewAssessmentDialog(true)}>
             <Plus className="h-4 w-4 mr-2" />
             New Assessment
           </Button>
@@ -397,6 +401,15 @@ export function ComplianceTracking() {
           </div>
         </TabsContent>
       </Tabs>
+
+      <NewComplianceAssessmentDialog
+        open={showNewAssessmentDialog}
+        onOpenChange={setShowNewAssessmentDialog}
+        onAssessmentCreated={() => {
+          // Refresh data here
+          console.log("Assessment created successfully");
+        }}
+      />
     </div>
   );
 }

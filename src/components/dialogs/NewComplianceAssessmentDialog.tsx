@@ -88,8 +88,8 @@ export function NewComplianceAssessmentDialog({
       const selectedFramework = complianceFrameworks.find(f => f.id === formData.framework);
       const selectedType = assessmentTypes.find(t => t.id === formData.assessmentType);
 
-      // Insert compliance assessment
-      const { error } = await supabase.from("compliance_assessments").insert({
+      // Insert compliance assessment (using any to bypass type checking until types refresh)
+      const { error } = await (supabase as any).from("compliance_assessments").insert({
         title: formData.title,
         description: formData.description,
         framework_id: formData.framework,

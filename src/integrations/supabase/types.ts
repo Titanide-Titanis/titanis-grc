@@ -247,6 +247,93 @@ export type Database = {
         }
         Relationships: []
       }
+      compliance_assessments: {
+        Row: {
+          actual_end_date: string | null
+          actual_start_date: string | null
+          assessment_type: string | null
+          budget_range: string | null
+          completion_percentage: number | null
+          created_at: string
+          created_by: string | null
+          deliverables: string[] | null
+          description: string | null
+          findings: string | null
+          framework_id: string
+          framework_name: string | null
+          id: string
+          lead_assessor_email: string | null
+          objectives: string[] | null
+          organization_id: string | null
+          planned_end_date: string | null
+          planned_start_date: string | null
+          priority_level: string | null
+          recommendations: string[] | null
+          scope: string | null
+          selected_controls: string[] | null
+          stakeholders: string[] | null
+          status: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          actual_end_date?: string | null
+          actual_start_date?: string | null
+          assessment_type?: string | null
+          budget_range?: string | null
+          completion_percentage?: number | null
+          created_at?: string
+          created_by?: string | null
+          deliverables?: string[] | null
+          description?: string | null
+          findings?: string | null
+          framework_id: string
+          framework_name?: string | null
+          id?: string
+          lead_assessor_email?: string | null
+          objectives?: string[] | null
+          organization_id?: string | null
+          planned_end_date?: string | null
+          planned_start_date?: string | null
+          priority_level?: string | null
+          recommendations?: string[] | null
+          scope?: string | null
+          selected_controls?: string[] | null
+          stakeholders?: string[] | null
+          status?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          actual_end_date?: string | null
+          actual_start_date?: string | null
+          assessment_type?: string | null
+          budget_range?: string | null
+          completion_percentage?: number | null
+          created_at?: string
+          created_by?: string | null
+          deliverables?: string[] | null
+          description?: string | null
+          findings?: string | null
+          framework_id?: string
+          framework_name?: string | null
+          id?: string
+          lead_assessor_email?: string | null
+          objectives?: string[] | null
+          organization_id?: string | null
+          planned_end_date?: string | null
+          planned_start_date?: string | null
+          priority_level?: string | null
+          recommendations?: string[] | null
+          scope?: string | null
+          selected_controls?: string[] | null
+          stakeholders?: string[] | null
+          status?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       compliance_frameworks: {
         Row: {
           created_at: string
@@ -879,6 +966,104 @@ export type Database = {
             columns: ["owner_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      subscription_tiers: {
+        Row: {
+          created_at: string
+          description: string | null
+          features: Json
+          id: string
+          is_active: boolean | null
+          limits: Json
+          name: string
+          price_monthly: number
+          price_yearly: number | null
+          stripe_price_id_monthly: string | null
+          stripe_price_id_yearly: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          features?: Json
+          id?: string
+          is_active?: boolean | null
+          limits?: Json
+          name: string
+          price_monthly: number
+          price_yearly?: number | null
+          stripe_price_id_monthly?: string | null
+          stripe_price_id_yearly?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          features?: Json
+          id?: string
+          is_active?: boolean | null
+          limits?: Json
+          name?: string
+          price_monthly?: number
+          price_yearly?: number | null
+          stripe_price_id_monthly?: string | null
+          stripe_price_id_yearly?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_subscriptions: {
+        Row: {
+          created_at: string
+          current_period_end: string | null
+          current_period_start: string | null
+          id: string
+          organization_id: string
+          status: string | null
+          stripe_customer_id: string | null
+          stripe_subscription_id: string | null
+          tier_id: string
+          trial_end: string | null
+          updated_at: string
+          usage_stats: Json | null
+        }
+        Insert: {
+          created_at?: string
+          current_period_end?: string | null
+          current_period_start?: string | null
+          id?: string
+          organization_id: string
+          status?: string | null
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          tier_id: string
+          trial_end?: string | null
+          updated_at?: string
+          usage_stats?: Json | null
+        }
+        Update: {
+          created_at?: string
+          current_period_end?: string | null
+          current_period_start?: string | null
+          id?: string
+          organization_id?: string
+          status?: string | null
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          tier_id?: string
+          trial_end?: string | null
+          updated_at?: string
+          usage_stats?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_subscriptions_tier_id_fkey"
+            columns: ["tier_id"]
+            isOneToOne: false
+            referencedRelation: "subscription_tiers"
             referencedColumns: ["id"]
           },
         ]

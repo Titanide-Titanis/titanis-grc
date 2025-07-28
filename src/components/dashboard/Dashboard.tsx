@@ -1,22 +1,44 @@
+import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Crown, ArrowRight } from "lucide-react";
 import { MetricsGrid } from "./MetricsGrid";
 import { RiskHeatmap } from "./RiskHeatmap";
 import { ComplianceOverview } from "./ComplianceOverview";
 import { RecentActivity } from "./RecentActivity";
+import { SubscriptionManager } from "@/components/subscription/SubscriptionManager";
 
 export function Dashboard() {
+  const [showSubscriptionManager, setShowSubscriptionManager] = useState(false);
+
   return (
     <div className="space-y-6 animate-fade-in">
       {/* TITANIS™ Dashboard Header */}
-      <div className="text-center space-y-2">
-        <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
-          TITANIS™ Dashboard
-        </h1>
-        <p className="text-lg text-muted-foreground">
-          Titanide's Proprietary Enterprise Governance, Risk & Compliance Platform
-        </p>
-        <div className="w-24 h-1 bg-gradient-to-r from-primary to-primary/50 mx-auto rounded-full"></div>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">
+            Welcome to TITANIS™
+          </h1>
+          <p className="text-muted-foreground">
+            Titanide's Proprietary Enterprise Governance, Risk & Compliance Platform
+          </p>
+        </div>
+        <div className="space-x-2">
+          <Button 
+            variant="outline" 
+            size="lg" 
+            onClick={() => setShowSubscriptionManager(true)}
+            className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+          >
+            <Crown className="mr-2 h-4 w-4" />
+            Upgrade Plan
+          </Button>
+          <Button size="lg" className="bg-gradient-primary text-white shadow-elegant">
+            Get Started
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
       </div>
 
       {/* Enhanced Key Metrics with Animations */}
@@ -70,6 +92,11 @@ export function Dashboard() {
           </div>
         </TabsContent>
       </Tabs>
+
+      <SubscriptionManager
+        open={showSubscriptionManager}
+        onOpenChange={setShowSubscriptionManager}
+      />
     </div>
   );
 }
