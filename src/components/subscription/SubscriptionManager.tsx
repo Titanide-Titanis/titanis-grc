@@ -30,6 +30,7 @@ export function SubscriptionManager({ open, onOpenChange }: SubscriptionManagerP
   const [tiers, setTiers] = useState<SubscriptionTier[]>([]);
   const [currentTier, setCurrentTier] = useState<string>("Free");
   const [loading, setLoading] = useState(false);
+  const [fetchingTiers, setFetchingTiers] = useState(false);
   const [billingInterval, setBillingInterval] = useState<"monthly" | "yearly">("monthly");
   const { toast } = useToast();
 
@@ -41,16 +42,26 @@ export function SubscriptionManager({ open, onOpenChange }: SubscriptionManagerP
   }, [open]);
 
   const fetchSubscriptionTiers = async () => {
+    setFetchingTiers(true);
     try {
-      const { data } = await (supabase as any).from("subscription_tiers").select("*").eq("is_active", true);
+      const { data, error } = await (supabase as any).from("subscription_tiers").select("*").eq("is_active", true);
+      if (error) throw error;
+      
       if (data) {
         setTiers(data.map((tier: any) => ({
           ...tier,
           is_popular: tier.name === "Professional"
         })));
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error fetching tiers:", error);
+      toast({
+        title: "Error",
+        description: "Failed to load subscription plans",
+        variant: "destructive"
+      });
+    } finally {
+      setFetchingTiers(false);
     }
   };
 
@@ -221,7 +232,24 @@ export function SubscriptionManager({ open, onOpenChange }: SubscriptionManagerP
 
         {/* Pricing Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          {tiers.map((tier) => {
+          {fetchingTiers ? (
+            Array.from({ length: 5 }).map((_, i) => (
+              <Card key={i} className="animate-pulse">
+                <CardHeader>
+                  <div className="h-6 bg-muted rounded w-24 mx-auto"></div>
+                  <div className="h-8 bg-muted rounded w-16 mx-auto"></div>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    {Array.from({ length: 4 }).map((_, j) => (
+                      <div key={j} className="h-4 bg-muted rounded"></div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            ))
+          ) : (
+            tiers.map((tier) => {
             const isCurrentTier = tier.name === currentTier;
             const price = billingInterval === "monthly" ? tier.price_monthly : tier.price_yearly;
             const features = getFeatureList(tier.features || {}, tier.limits || {});
@@ -291,7 +319,8 @@ export function SubscriptionManager({ open, onOpenChange }: SubscriptionManagerP
                 </CardContent>
               </Card>
             );
-          })}
+          })
+          )}
         </div>
 
         {/* Feature Comparison */}

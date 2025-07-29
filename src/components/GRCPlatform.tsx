@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Sidebar } from "./layout/Sidebar";
 import { Header } from "./layout/Header";
+import { Footer } from "./layout/Footer";
 import { Dashboard } from "./dashboard/Dashboard";
 import { RiskManagement } from "./risk/RiskManagement";
 import { ComplianceTracking } from "./compliance/ComplianceTracking";
@@ -89,6 +90,7 @@ export function GRCPlatform() {
             </div>
           </div>
         </main>
+        <Footer />
       </div>
     </div>
   );

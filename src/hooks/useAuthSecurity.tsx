@@ -35,9 +35,28 @@ export function useAuthSecurity() {
 
   const loadAuthSettings = async () => {
     try {
+      // Get current user's organization
+      const { data: user } = await supabase.auth.getUser();
+      if (!user.user) {
+        setLoading(false);
+        return;
+      }
+
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('organization_id')
+        .eq('id', user.user.id)
+        .single();
+
+      if (!profile?.organization_id) {
+        setLoading(false);
+        return;
+      }
+
       const { data, error } = await supabase
         .from('auth_settings')
         .select('*')
+        .eq('organization_id', profile.organization_id)
         .limit(1)
         .maybeSingle();
 
@@ -58,6 +77,20 @@ export function useAuthSecurity() {
           requireSymbols: data.require_symbols,
           enableLeakedPasswordCheck: data.enable_leaked_password_check,
           otpExpirySeconds: data.otp_expiry_seconds,
+        });
+      } else {
+        // Set default settings if none found
+        setSettings({
+          maxLoginAttempts: 3,
+          lockoutDurationMinutes: 15,
+          enableCaptchaAfterAttempts: 2,
+          passwordMinLength: 12,
+          requireUppercase: true,
+          requireLowercase: true,
+          requireNumbers: true,
+          requireSymbols: true,
+          enableLeakedPasswordCheck: true,
+          otpExpirySeconds: 300,
         });
       }
     } catch (error) {

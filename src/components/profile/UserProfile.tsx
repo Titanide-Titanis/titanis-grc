@@ -66,7 +66,7 @@ export function UserProfile() {
   };
 
   const handleSave = async () => {
-    if (!profile) return;
+    if (!profile || !user?.id) return;
     
     setSaving(true);
     try {
@@ -77,9 +77,10 @@ export function UserProfile() {
           last_name: profile.last_name,
           title: profile.title,
           department: profile.department,
-          phone: profile.phone
+          phone: profile.phone,
+          updated_at: new Date().toISOString()
         })
-        .eq('id', user?.id);
+        .eq('id', user.id);
 
       if (error) throw error;
       
@@ -87,11 +88,11 @@ export function UserProfile() {
         title: "Success",
         description: "Profile updated successfully"
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error updating profile:', error);
       toast({
         title: "Error",
-        description: "Failed to update profile",
+        description: error.message || "Failed to update profile",
         variant: "destructive"
       });
     } finally {
@@ -100,6 +101,15 @@ export function UserProfile() {
   };
 
   const handlePasswordChange = async () => {
+    if (!passwords.new || passwords.new.length < 8) {
+      toast({
+        title: "Error",
+        description: "Password must be at least 8 characters long",
+        variant: "destructive"
+      });
+      return;
+    }
+
     if (passwords.new !== passwords.confirm) {
       toast({
         title: "Error",
@@ -122,11 +132,11 @@ export function UserProfile() {
         title: "Success",
         description: "Password updated successfully"
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error updating password:', error);
       toast({
         title: "Error",
-        description: "Failed to update password",
+        description: error.message || "Failed to update password",
         variant: "destructive"
       });
     }
