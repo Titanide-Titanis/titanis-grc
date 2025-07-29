@@ -4,11 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
+import { AvatarUpload } from "@/components/ui/avatar-upload";
 import { supabase } from "@/integrations/supabase/client";
-import { User, Mail, Phone, Briefcase, Building2, Camera, Save, Key } from "lucide-react";
+import { User, Mail, Phone, Briefcase, Building2, Save, Key } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
 interface Profile {
@@ -182,18 +182,11 @@ export function UserProfile() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="flex flex-col items-center space-y-4">
-              <Avatar className="h-24 w-24">
-                <AvatarImage src={profile.avatar_url || ""} />
-                <AvatarFallback className="text-lg">
-                  {profile.first_name?.[0]}{profile.last_name?.[0]}
-                </AvatarFallback>
-              </Avatar>
-              <Button variant="outline" size="sm">
-                <Camera className="h-4 w-4 mr-2" />
-                Change Photo
-              </Button>
-            </div>
+            <AvatarUpload
+              currentAvatarUrl={profile.avatar_url}
+              onAvatarChange={(newUrl) => setProfile({...profile, avatar_url: newUrl})}
+              fallbackText={`${profile.first_name?.[0] || ''}${profile.last_name?.[0] || ''}`}
+            />
             
             <Separator />
             

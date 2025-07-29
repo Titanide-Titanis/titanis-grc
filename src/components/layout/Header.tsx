@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,10 +13,33 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { NotificationCenter } from "@/components/notifications/NotificationCenter";
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 export function Header() {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
+  const [userProfile, setUserProfile] = useState<any>(null);
+
+  useEffect(() => {
+    if (user) {
+      fetchUserProfile();
+    }
+  }, [user]);
+
+  const fetchUserProfile = async () => {
+    try {
+      const { data } = await supabase
+        .from('profiles')
+        .select('first_name, last_name, avatar_url')
+        .eq('id', user?.id)
+        .single();
+      
+      setUserProfile(data);
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+    }
+  };
 
   const handleSignOut = async () => {
     await signOut();
@@ -71,9 +95,14 @@ export function Header() {
         {/* User Menu */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm">
-              <User className="h-4 w-4 mr-2" />
-              {user?.email?.split('@')[0] || 'User'}
+            <Button variant="outline" size="sm" className="flex items-center gap-2">
+              <Avatar className="h-6 w-6">
+                <AvatarImage src={userProfile?.avatar_url || ""} />
+                <AvatarFallback className="text-xs">
+                  {userProfile?.first_name?.[0]}{userProfile?.last_name?.[0]}
+                </AvatarFallback>
+              </Avatar>
+              {userProfile?.first_name || user?.email?.split('@')[0] || 'User'}
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
