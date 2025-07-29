@@ -26,7 +26,7 @@ export function Header() {
       <div className="flex items-center space-x-6 flex-1 max-w-2xl">
         <div className="flex items-center space-x-3">
           <img 
-            src="/favicon.png" 
+            src="/lovable-uploads/b791a5ed-0868-4049-b187-edf731d24221.png" 
             alt="TITANIS™ Logo" 
             className="w-8 h-8 object-contain"
           />

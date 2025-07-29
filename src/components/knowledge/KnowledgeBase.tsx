@@ -277,7 +277,15 @@ export const KnowledgeBase: React.FC = () => {
             <CardHeader className="text-center">
               <Mail className="h-8 w-8 text-primary mx-auto mb-2" />
               <CardTitle className="text-base">Email Support</CardTitle>
-              <CardDescription>support@titanideconsulting.com</CardDescription>
+              <CardDescription className="break-words">support@titanideconsulting.com</CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => window.open("https://www.titanideconsulting.com/solutions/digital-products/kj-advisor", "_blank")}>
+            <CardHeader className="text-center">
+              <HelpCircle className="h-8 w-8 text-primary mx-auto mb-2" />
+              <CardTitle className="text-base">KJ Advisor GPTs</CardTitle>
+              <CardDescription>AI-powered GRC advisory</CardDescription>
             </CardHeader>
           </Card>
 
@@ -285,7 +293,7 @@ export const KnowledgeBase: React.FC = () => {
             <CardHeader className="text-center">
               <Phone className="h-8 w-8 text-primary mx-auto mb-2" />
               <CardTitle className="text-base">Sales Inquiries</CardTitle>
-              <CardDescription>sales@titanideconsulting.com</CardDescription>
+              <CardDescription className="break-words">sales@titanideconsulting.com</CardDescription>
             </CardHeader>
           </Card>
         </div>
@@ -303,7 +311,7 @@ export const KnowledgeBase: React.FC = () => {
           <p className="text-sm text-muted-foreground">
             Our support team is here to help you succeed with TITANIS™. Get in touch through any of these channels:
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
             <div>
               <span className="font-medium">Support Portal:</span>
               <br />
@@ -311,9 +319,29 @@ export const KnowledgeBase: React.FC = () => {
                 href="https://support.titanideholdings.com/portal/en/home" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-primary hover:underline"
+                className="text-primary hover:underline break-words"
               >
                 support.titanideholdings.com
+              </a>
+            </div>
+            <div>
+              <span className="font-medium">US Support:</span>
+              <br />
+              <a 
+                href="tel:+18326130619"
+                className="text-primary hover:underline"
+              >
+                +1-832-613-0619
+              </a>
+            </div>
+            <div>
+              <span className="font-medium">UK/EU Support:</span>
+              <br />
+              <a 
+                href="tel:+442037251643"
+                className="text-primary hover:underline"
+              >
+                +44 2037251643
               </a>
             </div>
             <div>
@@ -321,21 +349,29 @@ export const KnowledgeBase: React.FC = () => {
               <br />
               <a 
                 href="mailto:support@titanideconsulting.com"
-                className="text-primary hover:underline"
+                className="text-primary hover:underline break-words"
               >
                 support@titanideconsulting.com
               </a>
             </div>
-            <div>
-              <span className="font-medium">Sales Inquiries:</span>
-              <br />
-              <a 
-                href="mailto:sales@titanideconsulting.com"
-                className="text-primary hover:underline"
-              >
-                sales@titanideconsulting.com
-              </a>
+          </div>
+          
+          <div className="mt-4 p-4 bg-muted/30 rounded-lg">
+            <div className="flex items-center gap-2 mb-2">
+              <HelpCircle className="h-4 w-4" />
+              <span className="font-medium">KJ Advisor GPTs</span>
             </div>
+            <p className="text-xs text-muted-foreground mb-2">
+              Get AI-powered GRC advisory support through our advanced KJ Advisor platform
+            </p>
+            <a 
+              href="https://www.titanideconsulting.com/solutions/digital-products/kj-advisor"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:underline text-sm"
+            >
+              Access KJ Advisor →
+            </a>
           </div>
         </CardContent>
       </Card>

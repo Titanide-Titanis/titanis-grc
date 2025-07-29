@@ -33,6 +33,9 @@ const navigation = [
   { id: 'incidents', name: 'Incidents', icon: Shield },
   { id: 'vendors', name: 'Vendor Management', icon: Building2 },
   { id: 'analytics', name: 'Analytics', icon: BarChart3 },
+  { id: 'reports', name: 'Report Builder', icon: FileText },
+  { id: 'automated-reports', name: 'Automated Reports', icon: BarChart3 },
+  { id: 'board-reports', name: 'Board Reports', icon: BarChart3 },
   { id: 'knowledge', name: 'Knowledge Base', icon: BookOpen },
   { id: 'team', name: 'Team', icon: Users },
   { id: 'settings', name: 'Settings', icon: Settings }

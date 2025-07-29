@@ -11,6 +11,9 @@ import { AnalyticsReporting } from "./analytics/AnalyticsReporting";
 import { VendorManagement } from "./vendor/VendorManagement";
 import { KnowledgeBase } from "./knowledge/KnowledgeBase";
 import { TeamManagement } from "./team/TeamManagement";
+import { ReportBuilder } from "./reports/ReportBuilder";
+import { AutomatedReporting } from "./reports/AutomatedReporting";
+import { BoardReporting } from "./reports/BoardReporting";
 
 // TITANIS™ Placeholder components for upcoming modules
 const PlaceholderComponent = ({ title }: { title: string }) => (
@@ -61,6 +64,12 @@ export function GRCPlatform() {
         return <KnowledgeBase />;
       case "team":
         return <TeamManagement />;
+      case "reports":
+        return <ReportBuilder />;
+      case "automated-reports":
+        return <AutomatedReporting />;
+      case "board-reports":
+        return <BoardReporting />;
       case "settings":
         return <PlaceholderComponent title="Settings" />;
       default:
