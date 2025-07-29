@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { NewRiskDialog } from "@/components/dialogs/NewRiskDialog";
 import { RiskWizard } from "@/components/risk/RiskWizard";
-import { RiskWizard } from "@/components/risk/RiskWizard";
 import { 
   Plus, 
   Search, 
@@ -74,7 +73,6 @@ const getStatusColor = (status: string) => {
 export function RiskManagement() {
   const [searchTerm, setSearchTerm] = useState("");
   const [showNewRiskDialog, setShowNewRiskDialog] = useState(false);
-  const [showRiskWizard, setShowRiskWizard] = useState(false);
   const [showRiskWizard, setShowRiskWizard] = useState(false);
 
   const filteredRisks = risks.filter(risk =>
@@ -394,6 +392,15 @@ export function RiskManagement() {
         onRiskCreated={() => {
           // Refresh risk data when a new risk is created
           console.log('Risk created successfully');
+        }}
+      />
+      
+      <RiskWizard 
+        open={showRiskWizard} 
+        onOpenChange={setShowRiskWizard}
+        onRiskCreated={() => {
+          setShowRiskWizard(false);
+          // In a real app, you would refresh the data here
         }}
       />
     </div>
