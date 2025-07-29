@@ -1346,7 +1346,22 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      check_organization_access: {
+        Args: { target_org_id: string }
+        Returns: boolean
+      }
+      get_current_user_organization: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
+      get_current_user_role: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
+      user_has_admin_role: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
     }
     Enums: {
       audit_status: "planned" | "in_progress" | "completed" | "cancelled"
