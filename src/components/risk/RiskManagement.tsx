@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { NewRiskDialog } from "@/components/dialogs/NewRiskDialog";
+import { RiskWizard } from "@/components/risk/RiskWizard";
+import { RiskWizard } from "@/components/risk/RiskWizard";
 import { 
   Plus, 
   Search, 
@@ -72,6 +74,8 @@ const getStatusColor = (status: string) => {
 export function RiskManagement() {
   const [searchTerm, setSearchTerm] = useState("");
   const [showNewRiskDialog, setShowNewRiskDialog] = useState(false);
+  const [showRiskWizard, setShowRiskWizard] = useState(false);
+  const [showRiskWizard, setShowRiskWizard] = useState(false);
 
   const filteredRisks = risks.filter(risk =>
     risk.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -88,10 +92,16 @@ export function RiskManagement() {
             Identify, assess, and mitigate organizational risks
           </p>
         </div>
-        <Button onClick={() => setShowNewRiskDialog(true)}>
-          <Plus className="h-4 w-4 mr-2" />
-          New Risk Assessment
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" onClick={() => setShowNewRiskDialog(true)}>
+            <Plus className="h-4 w-4 mr-2" />
+            Quick Add
+          </Button>
+          <Button onClick={() => setShowRiskWizard(true)}>
+            <Plus className="h-4 w-4 mr-2" />
+            Risk Assessment Wizard
+          </Button>
+        </div>
       </div>
 
       {/* Search and Filters */}
