@@ -97,8 +97,10 @@ export function SubscriptionManager({ open, onOpenChange }: SubscriptionManagerP
     if (tierName === "Enterprise Plus") {
       toast({
         title: "Enterprise Plus",
-        description: "Please contact sales for a custom Enterprise Plus quote.",
+        description: "Please contact sales@titanideconsulting.com for a custom Enterprise Plus quote.",
       });
+      // Open email client
+      window.open("mailto:sales@titanideconsulting.com?subject=Enterprise Plus Inquiry&body=Hi, I'm interested in learning more about the Enterprise Plus plan for TITANIS™ platform.");
       return;
     }
 
@@ -138,7 +140,8 @@ export function SubscriptionManager({ open, onOpenChange }: SubscriptionManagerP
     }
   };
 
-  const formatPrice = (cents: number) => {
+  const formatPrice = (cents: number, tierName?: string) => {
+    if (tierName === "Enterprise Plus") return "Contact Sales";
     if (cents === 0) return "Free";
     return `$${(cents / 100).toLocaleString()}`;
   };
@@ -249,7 +252,7 @@ export function SubscriptionManager({ open, onOpenChange }: SubscriptionManagerP
                   </div>
                   <CardTitle className="text-lg">{tier.name}</CardTitle>
                   <div className="text-2xl font-bold">
-                    {formatPrice(price)}
+                    {formatPrice(price, tier.name)}
                     {tier.name !== "Free" && tier.name !== "Enterprise Plus" && (
                       <span className="text-sm font-normal text-muted-foreground">
                         /{billingInterval === "monthly" ? "mo" : "yr"}
@@ -292,12 +295,37 @@ export function SubscriptionManager({ open, onOpenChange }: SubscriptionManagerP
         </div>
 
         {/* Feature Comparison */}
-        <div className="mt-8 text-center">
+        <div className="mt-8 text-center space-y-2">
           <p className="text-sm text-muted-foreground">
             All plans include 14-day free trial • Cancel anytime • 24/7 support
           </p>
-          <p className="text-xs text-muted-foreground mt-2">
-            Enterprise customers: Contact sales for volume discounts and custom deployment options
+          <p className="text-xs text-muted-foreground">
+            Enterprise customers: Contact{" "}
+            <a 
+              href="mailto:sales@titanideconsulting.com?subject=Enterprise Inquiry&body=Hi, I'm interested in learning more about enterprise solutions for TITANIS™ platform."
+              className="text-primary hover:underline"
+            >
+              sales@titanideconsulting.com
+            </a>{" "}
+            for volume discounts and custom deployment options
+          </p>
+          <p className="text-xs text-muted-foreground">
+            Support:{" "}
+            <a 
+              href="mailto:support@titanideconsulting.com"
+              className="text-primary hover:underline"
+            >
+              support@titanideconsulting.com
+            </a>{" "}
+            •{" "}
+            <a 
+              href="https://support.titanideholdings.com/portal/en/home"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:underline"
+            >
+              Support Portal
+            </a>
           </p>
         </div>
       </DialogContent>
