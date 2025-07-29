@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { NewAuditDialog } from "@/components/dialogs/NewAuditDialog";
+import { AuditWizard } from "@/components/wizards/AuditWizard";
 import { 
   Plus, 
   Search, 

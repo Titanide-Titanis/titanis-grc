@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { NewPolicyDialog } from "@/components/dialogs/NewPolicyDialog";
+import { PolicyWizard } from "@/components/wizards/PolicyWizard";
 import { 
   Plus, 
   Search, 

@@ -15,6 +15,7 @@ import {
   Download
 } from "lucide-react";
 import { NewComplianceAssessmentDialog } from "@/components/dialogs/NewComplianceAssessmentDialog";
+import { ComplianceWizard } from "@/components/wizards/ComplianceWizard";
 
 const frameworks = [
   {

@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { NewIncidentDialog } from "@/components/dialogs/NewIncidentDialog";
+import { IncidentWizard } from "@/components/wizards/IncidentWizard";
 import { 
   Plus, 
   Search, 
