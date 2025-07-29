@@ -44,6 +44,12 @@ export const KnowledgeBase: React.FC = () => {
     { value: "Getting Started", label: "Getting Started" },
     { value: "Risk Management", label: "Risk Management" },
     { value: "Compliance", label: "Compliance" },
+    { value: "Policy Management", label: "Policy Management" },
+    { value: "Audit Management", label: "Audit Management" },
+    { value: "Incident Management", label: "Incident Management" },
+    { value: "Vendor Management", label: "Vendor Management" },
+    { value: "Analytics", label: "Analytics" },
+    { value: "Troubleshooting", label: "Troubleshooting" },
     { value: "Resources", label: "Free Resources" },
     { value: "Support", label: "Support & Training" }
   ];
@@ -174,13 +180,19 @@ export const KnowledgeBase: React.FC = () => {
 
       <Tabs value={selectedCategory} onValueChange={setSelectedCategory} className="space-y-6">
         <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
-          <TabsList className="grid w-full lg:w-auto grid-cols-3 lg:grid-cols-6">
+          <div className="flex flex-wrap gap-2">
             {categories.map(category => (
-              <TabsTrigger key={category.value} value={category.value} className="text-xs lg:text-sm">
+              <Button
+                key={category.value}
+                variant={selectedCategory === category.value ? "default" : "outline"}
+                size="sm"
+                onClick={() => setSelectedCategory(category.value)}
+                className="text-xs"
+              >
                 {category.label}
-              </TabsTrigger>
+              </Button>
             ))}
-          </TabsList>
+          </div>
           
           <div className="relative w-full lg:w-96">
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />

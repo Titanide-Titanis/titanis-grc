@@ -9,10 +9,11 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Separator } from "@/components/ui/separator";
-import { Shield, Building2, Users, FileCheck, BarChart3, AlertTriangle, CheckCircle, Eye, EyeOff, Loader2, Lock } from "lucide-react";
+import { Shield, Building2, Users, FileCheck, BarChart3, AlertTriangle, CheckCircle, Eye, EyeOff, Loader2, Lock, Clock } from "lucide-react";
 import { useAuthSecurity } from "@/hooks/useAuthSecurity";
 import { PasswordStrengthIndicator } from "@/components/auth/PasswordStrengthIndicator";
 import { CaptchaVerification } from "@/components/auth/CaptchaVerification";
+import { DemoModeSelector } from "@/components/demo/DemoModeSelector";
 
 export default function Auth() {
   const navigate = useNavigate();
@@ -40,6 +41,9 @@ export default function Auth() {
   const [captchaVerified, setCaptchaVerified] = useState(false);
   const [passwordIsValid, setPasswordIsValid] = useState(false);
   const [passwordIsLeaked, setPasswordIsLeaked] = useState(false);
+  
+  // Demo/Trial state
+  const [showDemoSelector, setShowDemoSelector] = useState(false);
 
   useEffect(() => {
     // Check if user is already logged in
@@ -51,6 +55,25 @@ export default function Auth() {
     };
     checkUser();
   }, [navigate]);
+
+  const handleDemoModeStart = (scenario: any) => {
+    // Enable demo mode and navigate to platform
+    localStorage.setItem('titanis_demo_mode', 'true');
+    localStorage.setItem('titanis_demo_scenario', JSON.stringify(scenario));
+    navigate("/");
+  };
+
+  const handleTrialStart = () => {
+    // Enable trial mode and navigate to platform
+    localStorage.setItem('titanis_trial_start', new Date().toISOString());
+    navigate("/");
+  };
+
+  const handleDemoReset = () => {
+    localStorage.removeItem('titanis_demo_mode');
+    localStorage.removeItem('titanis_demo_scenario');
+    setShowDemoSelector(false);
+  };
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -188,6 +211,18 @@ export default function Auth() {
       setLoading(false);
     }
   };
+
+  if (showDemoSelector) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-accent/10 via-background to-accent/5 flex items-center justify-center p-4">
+        <DemoModeSelector
+          onSelectScenario={handleDemoModeStart}
+          onStartTrial={handleTrialStart}
+          onResetDemo={handleDemoReset}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/10 via-background to-primary/5 flex items-center justify-center p-4 animate-fade-in">
@@ -504,9 +539,35 @@ export default function Auth() {
                 </TabsContent>
               </Tabs>
             </CardContent>
-            <CardFooter className="text-center">
-              <div className="space-y-2">
-                <Separator />
+            <CardFooter className="flex flex-col space-y-4">
+              <Separator />
+              
+              {/* Trial and Demo Options */}
+              <div className="space-y-3 w-full">
+                <p className="text-sm font-medium text-center">Explore TITANIS™ Risk-Free</p>
+                <div className="grid grid-cols-1 gap-2">
+                  <Button
+                    onClick={() => setShowDemoSelector(true)}
+                    variant="outline"
+                    className="w-full border-accent text-accent hover:bg-accent hover:text-white"
+                    size="sm"
+                  >
+                    <Eye className="mr-2 h-4 w-4" />
+                    Interactive Demo
+                  </Button>
+                  <Button
+                    onClick={handleTrialStart}
+                    variant="outline"
+                    className="w-full border-primary text-primary hover:bg-primary hover:text-white"
+                    size="sm"
+                  >
+                    <Clock className="mr-2 h-4 w-4" />
+                    Start 14-Day Trial
+                  </Button>
+                </div>
+              </div>
+
+              <div className="space-y-2 text-center">
                 <p className="text-xs text-muted-foreground">
                   By continuing, you agree to our Terms of Service and Privacy Policy.
                 </p>
