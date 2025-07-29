@@ -116,7 +116,7 @@ const getSeverityColor = (severity: string) => {
 
 export function IncidentManagement() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [showNewIncidentDialog, setShowNewIncidentDialog] = useState(false);
+  const [showIncidentWizard, setShowIncidentWizard] = useState(false);
 
   const filteredIncidents = incidents.filter(incident =>
     incident.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -138,7 +138,7 @@ export function IncidentManagement() {
             <Bell className="h-4 w-4 mr-2" />
             Alerts
           </Button>
-          <Button onClick={() => setShowNewIncidentDialog(true)}>
+          <Button onClick={() => setShowIncidentWizard(true)}>
             <Plus className="h-4 w-4 mr-2" />
             Report Incident
           </Button>
@@ -485,12 +485,12 @@ export function IncidentManagement() {
         </TabsContent>
       </Tabs>
 
-      <NewIncidentDialog 
-        open={showNewIncidentDialog}
-        onOpenChange={setShowNewIncidentDialog}
+      <IncidentWizard 
+        open={showIncidentWizard} 
+        onOpenChange={setShowIncidentWizard}
         onIncidentCreated={() => {
-          // Refresh incident data when a new incident is created
-          console.log('Incident created successfully');
+          // Refresh incident list or update state
+          setShowIncidentWizard(false);
         }}
       />
     </div>

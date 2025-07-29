@@ -115,7 +115,7 @@ const getStatusColor = (status: string) => {
 
 export function VendorManagement() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [showNewVendorDialog, setShowNewVendorDialog] = useState(false);
+  const [showVendorWizard, setShowVendorWizard] = useState(false);
 
   const filteredVendors = vendors.filter(vendor =>
     vendor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -137,7 +137,7 @@ export function VendorManagement() {
             <FileText className="mr-2 h-4 w-4" />
             Export Report
           </Button>
-          <Button onClick={() => setShowNewVendorDialog(true)}>
+          <Button onClick={() => setShowVendorWizard(true)}>
             <Plus className="mr-2 h-4 w-4" />
             Add Vendor
           </Button>
@@ -361,12 +361,12 @@ export function VendorManagement() {
         </TabsContent>
       </Tabs>
 
-      <NewVendorDialog 
-        open={showNewVendorDialog}
-        onOpenChange={setShowNewVendorDialog}
+      <VendorWizard 
+        open={showVendorWizard} 
+        onOpenChange={setShowVendorWizard}
         onVendorCreated={() => {
-          // Refresh vendor data when a new vendor is created
-          console.log('Vendor created successfully');
+          // Refresh vendor list or update state
+          setShowVendorWizard(false);
         }}
       />
     </div>

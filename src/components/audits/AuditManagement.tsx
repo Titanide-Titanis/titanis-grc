@@ -114,7 +114,7 @@ const getPriorityColor = (priority: string) => {
 
 export function AuditManagement() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [showNewAuditDialog, setShowNewAuditDialog] = useState(false);
+  const [showAuditWizard, setShowAuditWizard] = useState(false);
 
   const filteredAudits = audits.filter(audit =>
     audit.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -136,7 +136,7 @@ export function AuditManagement() {
             <Download className="h-4 w-4 mr-2" />
             Export Schedule
           </Button>
-          <Button onClick={() => setShowNewAuditDialog(true)}>
+          <Button onClick={() => setShowAuditWizard(true)}>
             <Plus className="h-4 w-4 mr-2" />
             New Audit
           </Button>
@@ -422,12 +422,12 @@ export function AuditManagement() {
         </TabsContent>
       </Tabs>
 
-      <NewAuditDialog 
-        open={showNewAuditDialog}
-        onOpenChange={setShowNewAuditDialog}
+      <AuditWizard 
+        open={showAuditWizard} 
+        onOpenChange={setShowAuditWizard}
         onAuditCreated={() => {
-          // Refresh audit data when a new audit is created
-          console.log('Audit created successfully');
+          // Refresh audit list or update state
+          setShowAuditWizard(false);
         }}
       />
     </div>

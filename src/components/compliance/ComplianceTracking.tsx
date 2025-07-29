@@ -98,7 +98,7 @@ const getJurisdictionFlag = (jurisdiction: string) => {
 };
 
 export function ComplianceTracking() {
-  const [showNewAssessmentDialog, setShowNewAssessmentDialog] = useState(false);
+  const [showComplianceWizard, setShowComplianceWizard] = useState(false);
 
   return (
     <div className="space-y-6">
@@ -115,7 +115,7 @@ export function ComplianceTracking() {
             <Download className="h-4 w-4 mr-2" />
             Export Report
           </Button>
-          <Button onClick={() => setShowNewAssessmentDialog(true)}>
+          <Button onClick={() => setShowComplianceWizard(true)}>
             <Plus className="h-4 w-4 mr-2" />
             New Assessment
           </Button>
@@ -402,12 +402,12 @@ export function ComplianceTracking() {
         </TabsContent>
       </Tabs>
 
-      <NewComplianceAssessmentDialog
-        open={showNewAssessmentDialog}
-        onOpenChange={setShowNewAssessmentDialog}
+      <ComplianceWizard 
+        open={showComplianceWizard} 
+        onOpenChange={setShowComplianceWizard}
         onAssessmentCreated={() => {
-          // Refresh data here
-          console.log("Assessment created successfully");
+          // Refresh assessment list or update state
+          setShowComplianceWizard(false);
         }}
       />
     </div>

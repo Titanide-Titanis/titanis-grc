@@ -103,7 +103,7 @@ const getStatusIcon = (status: string) => {
 export function PolicyManagement() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [showNewPolicyDialog, setShowNewPolicyDialog] = useState(false);
+  const [showPolicyWizard, setShowPolicyWizard] = useState(false);
 
   const filteredPolicies = policies.filter(policy => {
     const matchesSearch = policy.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -124,7 +124,7 @@ export function PolicyManagement() {
             Manage organizational policies and procedures
           </p>
         </div>
-        <Button onClick={() => setShowNewPolicyDialog(true)}>
+        <Button onClick={() => setShowPolicyWizard(true)}>
           <Plus className="h-4 w-4 mr-2" />
           New Policy
         </Button>
@@ -535,12 +535,12 @@ export function PolicyManagement() {
         </TabsContent>
       </Tabs>
 
-      <NewPolicyDialog 
-        open={showNewPolicyDialog}
-        onOpenChange={setShowNewPolicyDialog}
+      <PolicyWizard 
+        open={showPolicyWizard} 
+        onOpenChange={setShowPolicyWizard}
         onPolicyCreated={() => {
-          // Refresh policy data when a new policy is created
-          console.log('Policy created successfully');
+          // Refresh policy list or update state
+          setShowPolicyWizard(false);
         }}
       />
     </div>
