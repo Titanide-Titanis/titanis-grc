@@ -9,6 +9,8 @@ import { AuditManagement } from "./audits/AuditManagement";
 import { IncidentManagement } from "./incidents/IncidentManagement";
 import { AnalyticsReporting } from "./analytics/AnalyticsReporting";
 import { VendorManagement } from "./vendor/VendorManagement";
+import { KnowledgeBase } from "./knowledge/KnowledgeBase";
+import { TeamManagement } from "./team/TeamManagement";
 
 // TITANIS™ Placeholder components for upcoming modules
 const PlaceholderComponent = ({ title }: { title: string }) => (
@@ -56,9 +58,9 @@ export function GRCPlatform() {
       case "vendors":
         return <VendorManagement />;
       case "knowledge":
-        return <PlaceholderComponent title="Knowledge Base" />;
+        return <KnowledgeBase />;
       case "team":
-        return <PlaceholderComponent title="Team Management" />;
+        return <TeamManagement />;
       case "settings":
         return <PlaceholderComponent title="Settings" />;
       default:

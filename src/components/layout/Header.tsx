@@ -1,8 +1,7 @@
-import { Bell, Search, Globe, User, LogOut, Settings } from "lucide-react";
+import { Search, Globe, User, LogOut, Settings } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,6 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { NotificationCenter } from "@/components/notifications/NotificationCenter";
 
 export function Header() {
   const { user, signOut } = useAuth();
@@ -62,15 +62,7 @@ export function Header() {
         </DropdownMenu>
 
         {/* Real-time Notifications */}
-        <Button variant="outline" size="sm" className="relative group hover:shadow-md transition-all">
-          <Bell className="h-4 w-4 group-hover:animate-bounce" />
-          <Badge 
-            variant="destructive" 
-            className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs animate-glow"
-          >
-            3
-          </Badge>
-        </Button>
+        <NotificationCenter />
 
         {/* User Menu */}
         <DropdownMenu>
