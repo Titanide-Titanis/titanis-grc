@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,6 +12,8 @@ import { Separator } from "@/components/ui/separator";
 import { ArrowLeft, ArrowRight, CheckCircle, AlertTriangle, Shield, Target, FileText } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/useAuth";
+import { useWizardSession } from "@/hooks/useWizardSession";
 
 interface RiskWizardProps {
   open: boolean;
@@ -55,8 +57,11 @@ const IMPACT_LEVELS = [
 ];
 
 export const RiskWizard: React.FC<RiskWizardProps> = ({ open, onOpenChange, onRiskCreated }) => {
+  const { user, profile } = useAuth();
+  const { createSession, updateSessionProgress, completeSession, cancelSession, isLoading: sessionLoading } = useWizardSession();
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [sessionId, setSessionId] = useState<string | null>(null);
   const { toast } = useToast();
 
   // Form data
@@ -101,9 +106,18 @@ export const RiskWizard: React.FC<RiskWizardProps> = ({ open, onOpenChange, onRi
     }
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (currentStep < STEPS.length) {
       setCurrentStep(currentStep + 1);
+      
+      // Update session progress
+      if (sessionId) {
+        await updateSessionProgress(sessionId, {
+          currentStep: currentStep + 1,
+          stepData: { [`step_${currentStep}`]: formData },
+          formData: formData
+        });
+      }
     }
   };
 
@@ -116,23 +130,6 @@ export const RiskWizard: React.FC<RiskWizardProps> = ({ open, onOpenChange, onRi
   const handleSubmit = async () => {
     setIsLoading(true);
     try {
-      const { data: user } = await supabase.auth.getUser();
-      if (!user.user) {
-        toast({ title: "Error", description: "You must be logged in to create a risk assessment.", variant: "destructive" });
-        return;
-      }
-
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("organization_id")
-        .eq("id", user.user.id)
-        .single();
-
-      if (!profile?.organization_id) {
-        toast({ title: "Error", description: "Organization not found. Please contact support.", variant: "destructive" });
-        return;
-      }
-
       const riskData = {
         title: formData.title,
         description: formData.description,
@@ -141,8 +138,8 @@ export const RiskWizard: React.FC<RiskWizardProps> = ({ open, onOpenChange, onRi
         risk_score: currentRiskScore,
         risk_level: currentRiskLevel as "low" | "medium" | "high" | "critical",
         mitigation_plan: formData.mitigationPlan,
-        organization_id: profile.organization_id,
-        created_by: user.user.id,
+        organization_id: profile?.organization_id,
+        created_by: user?.id,
         status: "open" as "open" | "in_progress" | "closed" | "mitigated" | "accepted",
         next_review_date: formData.reviewDate ? new Date(formData.reviewDate).toISOString().split('T')[0] : null
       };
@@ -151,27 +148,35 @@ export const RiskWizard: React.FC<RiskWizardProps> = ({ open, onOpenChange, onRi
 
       if (error) throw error;
 
+      // Complete wizard session
+      if (sessionId) {
+        await completeSession(sessionId, {
+          formInputs: formData,
+          completionMetrics: {
+            totalSteps: STEPS.length,
+            completedSteps: STEPS.length,
+            startTimestamp: new Date().toISOString(),
+            endTimestamp: new Date().toISOString(),
+            userAgent: navigator.userAgent
+          },
+          generatedArtifacts: {
+            summaries: [`Created risk assessment: ${formData.title}`]
+          },
+          outcomeStatus: 'success',
+          context: {
+            browserInfo: navigator.userAgent,
+            deviceType: /Mobile|Android|iPhone|iPad/.test(navigator.userAgent) ? 'mobile' : 'desktop',
+            userRole: profile?.role || 'user'
+          }
+        }, `Risk assessment "${formData.title}" created successfully with ${currentRiskLevel} risk level.`);
+      }
+
       toast({
         title: "Risk Assessment Created",
         description: `Risk "${formData.title}" has been successfully created with a ${currentRiskLevel.charAt(0).toUpperCase() + currentRiskLevel.slice(1)} risk level.`,
       });
 
-      // Reset form
-      setFormData({
-        title: "",
-        description: "",
-        category: "",
-        likelihood: 3,
-        impact: 3,
-        inherentLikelihood: 3,
-        inherentImpact: 3,
-        mitigationPlan: "",
-        controlMeasures: "",
-        ownerEmail: "",
-        reviewDate: "",
-        actionItems: ""
-      });
-      setCurrentStep(1);
+      resetForm();
       onOpenChange(false);
       onRiskCreated?.();
     } catch (error) {
@@ -184,6 +189,48 @@ export const RiskWizard: React.FC<RiskWizardProps> = ({ open, onOpenChange, onRi
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const resetForm = () => {
+    setFormData({
+      title: "",
+      description: "",
+      category: "",
+      likelihood: 3,
+      impact: 3,
+      inherentLikelihood: 3,
+      inherentImpact: 3,
+      mitigationPlan: "",
+      controlMeasures: "",
+      ownerEmail: "",
+      reviewDate: "",
+      actionItems: ""
+    });
+    setCurrentStep(1);
+    setSessionId(null);
+  };
+
+  // Create session when wizard opens
+  useEffect(() => {
+    if (open && !sessionId) {
+      const initSession = async () => {
+        const newSessionId = await createSession('risk', {
+          currentStep: 1,
+          formData: formData
+        });
+        setSessionId(newSessionId);
+      };
+      initSession();
+    }
+  }, [open, sessionId, createSession, formData]);
+
+  // Handle wizard close/cancel
+  const handleCancel = async () => {
+    if (sessionId) {
+      await cancelSession(sessionId, 'User cancelled the risk wizard');
+    }
+    onOpenChange(false);
+    resetForm();
   };
 
   const isStepValid = () => {
@@ -604,14 +651,14 @@ export const RiskWizard: React.FC<RiskWizardProps> = ({ open, onOpenChange, onRi
             </Button>
 
             <div className="flex gap-2">
-              <Button variant="outline" onClick={() => onOpenChange(false)}>
+              <Button variant="outline" onClick={handleCancel}>
                 Cancel
               </Button>
               
               {currentStep === STEPS.length ? (
                 <Button 
                   onClick={handleSubmit} 
-                  disabled={isLoading || !isStepValid()}
+                  disabled={isLoading || !isStepValid() || sessionLoading}
                   className="flex items-center gap-2"
                 >
                   {isLoading ? "Creating..." : "Create Risk Assessment"}
@@ -620,7 +667,7 @@ export const RiskWizard: React.FC<RiskWizardProps> = ({ open, onOpenChange, onRi
               ) : (
                 <Button 
                   onClick={handleNext} 
-                  disabled={!isStepValid()}
+                  disabled={!isStepValid() || sessionLoading}
                   className="flex items-center gap-2"
                 >
                   Next

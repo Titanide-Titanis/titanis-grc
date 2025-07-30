@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,6 +9,8 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { AlertTriangle, FileText, Users, Target, Clock, CheckCircle } from "lucide-react";
 import { toast } from "sonner";
+import { useAuth } from "@/hooks/useAuth";
+import { useWizardSession } from "@/hooks/useWizardSession";
 
 interface IncidentWizardProps {
   open: boolean;
@@ -38,7 +40,10 @@ const RESPONSE_ACTIONS = [
 ];
 
 export function IncidentWizard({ open, onOpenChange, onIncidentCreated }: IncidentWizardProps) {
+  const { user, profile } = useAuth();
+  const { createSession, updateSessionProgress, completeSession, cancelSession, isLoading: sessionLoading } = useWizardSession();
   const [currentStep, setCurrentStep] = useState(1);
+  const [sessionId, setSessionId] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -58,9 +63,18 @@ export function IncidentWizard({ open, onOpenChange, onIncidentCreated }: Incide
 
   const progress = (currentStep / STEPS.length) * 100;
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (currentStep < STEPS.length) {
       setCurrentStep(currentStep + 1);
+      
+      // Update session progress
+      if (sessionId) {
+        await updateSessionProgress(sessionId, {
+          currentStep: currentStep + 1,
+          stepData: { [`step_${currentStep}`]: formData },
+          formData: formData
+        });
+      }
     }
   };
 
@@ -72,30 +86,80 @@ export function IncidentWizard({ open, onOpenChange, onIncidentCreated }: Incide
 
   const handleSubmit = async () => {
     try {
-      // Here you would submit to Supabase
+      // Complete wizard session
+      if (sessionId) {
+        await completeSession(sessionId, {
+          formInputs: formData,
+          completionMetrics: {
+            totalSteps: STEPS.length,
+            completedSteps: STEPS.length,
+            startTimestamp: new Date().toISOString(),
+            endTimestamp: new Date().toISOString(),
+            userAgent: navigator.userAgent
+          },
+          generatedArtifacts: {
+            summaries: [`Created incident report: ${formData.title}`]
+          },
+          outcomeStatus: 'success',
+          context: {
+            browserInfo: navigator.userAgent,
+            deviceType: /Mobile|Android|iPhone|iPad/.test(navigator.userAgent) ? 'mobile' : 'desktop',
+            userRole: profile?.role || 'user'
+          }
+        }, `Incident report "${formData.title}" created successfully with ${formData.severity} severity.`);
+      }
+      
       toast.success("Incident report created successfully!");
       onIncidentCreated?.();
       onOpenChange(false);
-      setCurrentStep(1);
-      setFormData({
-        title: "",
-        description: "",
-        type: "",
-        severity: "",
-        detectedAt: "",
-        reportedBy: "",
-        location: "",
-        impactAreas: [],
-        estimatedImpact: "",
-        responseTeam: [],
-        immediateActions: [],
-        timeline: "",
-        containmentPlan: "",
-        communicationPlan: ""
-      });
+      resetForm();
     } catch (error) {
       toast.error("Failed to create incident report");
     }
+  };
+
+  const resetForm = () => {
+    setCurrentStep(1);
+    setSessionId(null);
+    setFormData({
+      title: "",
+      description: "",
+      type: "",
+      severity: "",
+      detectedAt: "",
+      reportedBy: "",
+      location: "",
+      impactAreas: [],
+      estimatedImpact: "",
+      responseTeam: [],
+      immediateActions: [],
+      timeline: "",
+      containmentPlan: "",
+      communicationPlan: ""
+    });
+  };
+
+  // Create session when wizard opens
+  useEffect(() => {
+    if (open && !sessionId) {
+      const initSession = async () => {
+        const newSessionId = await createSession('incident', {
+          currentStep: 1,
+          formData: formData
+        });
+        setSessionId(newSessionId);
+      };
+      initSession();
+    }
+  }, [open, sessionId, createSession, formData]);
+
+  // Handle wizard close/cancel
+  const handleCancel = async () => {
+    if (sessionId) {
+      await cancelSession(sessionId, 'User cancelled the incident wizard');
+    }
+    onOpenChange(false);
+    resetForm();
   };
 
   const toggleItem = (item: string, field: keyof typeof formData) => {
@@ -437,16 +501,16 @@ export function IncidentWizard({ open, onOpenChange, onIncidentCreated }: Incide
             </Button>
             
             <div className="flex gap-2">
-              <Button variant="outline" onClick={() => onOpenChange(false)}>
+              <Button variant="outline" onClick={handleCancel}>
                 Cancel
               </Button>
               
               {currentStep === STEPS.length ? (
-                <Button onClick={handleSubmit} disabled={!isStepValid()}>
+                <Button onClick={handleSubmit} disabled={!isStepValid() || sessionLoading}>
                   Submit Report
                 </Button>
               ) : (
-                <Button onClick={handleNext} disabled={!isStepValid()}>
+                <Button onClick={handleNext} disabled={!isStepValid() || sessionLoading}>
                   Next
                 </Button>
               )}

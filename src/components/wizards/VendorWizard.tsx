@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,6 +9,8 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Building, FileText, Shield, Users, CheckCircle } from "lucide-react";
 import { toast } from "sonner";
+import { useAuth } from "@/hooks/useAuth";
+import { useWizardSession } from "@/hooks/useWizardSession";
 
 interface VendorWizardProps {
   open: boolean;
@@ -44,7 +46,10 @@ const COMPLIANCE_FRAMEWORKS = [
 ];
 
 export function VendorWizard({ open, onOpenChange, onVendorCreated }: VendorWizardProps) {
+  const { user, profile } = useAuth();
+  const { createSession, updateSessionProgress, completeSession, cancelSession, isLoading: sessionLoading } = useWizardSession();
   const [currentStep, setCurrentStep] = useState(1);
+  const [sessionId, setSessionId] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     category: "",
@@ -70,9 +75,18 @@ export function VendorWizard({ open, onOpenChange, onVendorCreated }: VendorWiza
 
   const progress = (currentStep / STEPS.length) * 100;
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (currentStep < STEPS.length) {
       setCurrentStep(currentStep + 1);
+      
+      // Update session progress
+      if (sessionId) {
+        await updateSessionProgress(sessionId, {
+          currentStep: currentStep + 1,
+          stepData: { [`step_${currentStep}`]: formData },
+          formData: formData
+        });
+      }
     }
   };
 
@@ -84,36 +98,86 @@ export function VendorWizard({ open, onOpenChange, onVendorCreated }: VendorWiza
 
   const handleSubmit = async () => {
     try {
-      // Here you would submit to Supabase
+      // Complete wizard session
+      if (sessionId) {
+        await completeSession(sessionId, {
+          formInputs: formData,
+          completionMetrics: {
+            totalSteps: STEPS.length,
+            completedSteps: STEPS.length,
+            startTimestamp: new Date().toISOString(),
+            endTimestamp: new Date().toISOString(),
+            userAgent: navigator.userAgent
+          },
+          generatedArtifacts: {
+            summaries: [`Onboarded vendor: ${formData.name}`]
+          },
+          outcomeStatus: 'success',
+          context: {
+            browserInfo: navigator.userAgent,
+            deviceType: /Mobile|Android|iPhone|iPad/.test(navigator.userAgent) ? 'mobile' : 'desktop',
+            userRole: profile?.role || 'user'
+          }
+        }, `Vendor "${formData.name}" onboarding completed successfully with ${formData.riskLevel} risk level.`);
+      }
+      
       toast.success("Vendor onboarding completed successfully!");
       onVendorCreated?.();
       onOpenChange(false);
-      setCurrentStep(1);
-      setFormData({
-        name: "",
-        category: "",
-        website: "",
-        contactName: "",
-        contactEmail: "",
-        contactPhone: "",
-        description: "",
-        services: [],
-        contractValue: "",
-        contractStart: "",
-        contractEnd: "",
-        paymentTerms: "",
-        riskFactors: [],
-        riskLevel: "",
-        riskMitigation: "",
-        dataAccess: "",
-        complianceFrameworks: [],
-        certifications: "",
-        dueDiligence: "",
-        approvalStatus: ""
-      });
+      resetForm();
     } catch (error) {
       toast.error("Failed to complete vendor onboarding");
     }
+  };
+
+  const resetForm = () => {
+    setCurrentStep(1);
+    setSessionId(null);
+    setFormData({
+      name: "",
+      category: "",
+      website: "",
+      contactName: "",
+      contactEmail: "",
+      contactPhone: "",
+      description: "",
+      services: [],
+      contractValue: "",
+      contractStart: "",
+      contractEnd: "",
+      paymentTerms: "",
+      riskFactors: [],
+      riskLevel: "",
+      riskMitigation: "",
+      dataAccess: "",
+      complianceFrameworks: [],
+      certifications: "",
+      dueDiligence: "",
+      approvalStatus: ""
+    });
+  };
+
+  // Create session when wizard opens
+  useEffect(() => {
+    if (open && !sessionId) {
+      const initSession = async () => {
+        const newSessionId = await createSession('vendor', {
+          currentStep: 1,
+          formData: formData
+        });
+        setSessionId(newSessionId);
+      };
+      initSession();
+    }
+  }, [open, sessionId, createSession, formData]);
+
+  // Handle wizard close/cancel
+  const handleCancel = async () => {
+    if (sessionId) {
+      await cancelSession(sessionId, 'User cancelled the vendor wizard');
+    }
+    onOpenChange(false);
+    resetForm();
   };
 
   const toggleItem = (item: string, field: keyof typeof formData) => {

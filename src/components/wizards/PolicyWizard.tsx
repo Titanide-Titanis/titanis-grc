@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FileText, CheckCircle, User, Calendar, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -12,6 +12,8 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import { useWizardSession } from "@/hooks/useWizardSession";
+import { toast } from "sonner";
 
 interface PolicyWizardProps {
   open: boolean;
@@ -65,9 +67,11 @@ const STEPS = [
 ];
 
 export function PolicyWizard({ open, onOpenChange, onPolicyCreated }: PolicyWizardProps) {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
+  const { createSession, updateSessionProgress, completeSession, cancelSession, isLoading: sessionLoading } = useWizardSession();
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [sessionId, setSessionId] = useState<string | null>(null);
   
   // Form data
   const [selectedTemplate, setSelectedTemplate] = useState<string>('');
@@ -89,9 +93,18 @@ export function PolicyWizard({ open, onOpenChange, onPolicyCreated }: PolicyWiza
   const progress = (currentStep / STEPS.length) * 100;
   const selectedTemplateData = POLICY_TEMPLATES.find(t => t.id === selectedTemplate);
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (currentStep < STEPS.length) {
       setCurrentStep(currentStep + 1);
+      
+      // Update session progress
+      if (sessionId) {
+        await updateSessionProgress(sessionId, {
+          currentStep: currentStep + 1,
+          stepData: { [`step_${currentStep}`]: { selectedTemplate, policyData } },
+          formData: { selectedTemplate, policyData }
+        });
+      }
     } else {
       handleSubmit();
     }
@@ -121,16 +134,41 @@ export function PolicyWizard({ open, onOpenChange, onPolicyCreated }: PolicyWiza
           tags: policyData.tags,
           status: policyData.status,
           created_by: user?.id,
-          organization_id: user?.user_metadata?.organization_id
+          organization_id: profile?.organization_id
         });
 
       if (error) throw error;
 
+      // Complete wizard session
+      if (sessionId) {
+        await completeSession(sessionId, {
+          formInputs: { selectedTemplate, policyData },
+          completionMetrics: {
+            totalSteps: STEPS.length,
+            completedSteps: STEPS.length,
+            startTimestamp: new Date().toISOString(),
+            endTimestamp: new Date().toISOString(),
+            userAgent: navigator.userAgent
+          },
+          generatedArtifacts: {
+            summaries: [`Created policy: ${policyData.title}`]
+          },
+          outcomeStatus: 'success',
+          context: {
+            browserInfo: navigator.userAgent,
+            deviceType: /Mobile|Android|iPhone|iPad/.test(navigator.userAgent) ? 'mobile' : 'desktop',
+            userRole: profile?.role || 'user'
+          }
+        }, `Policy "${policyData.title}" created successfully with status ${policyData.status}.`);
+      }
+
+      toast.success("Policy created successfully!");
       onPolicyCreated?.();
       onOpenChange(false);
       resetForm();
     } catch (error) {
       console.error('Error creating policy:', error);
+      toast.error("Failed to create policy");
     } finally {
       setLoading(false);
     }
@@ -138,6 +176,7 @@ export function PolicyWizard({ open, onOpenChange, onPolicyCreated }: PolicyWiza
 
   const resetForm = () => {
     setCurrentStep(1);
+    setSessionId(null);
     setSelectedTemplate('');
     setPolicyData({
       title: '',
@@ -153,6 +192,29 @@ export function PolicyWizard({ open, onOpenChange, onPolicyCreated }: PolicyWiza
       tags: [],
       status: 'draft'
     });
+  };
+
+  // Create session when wizard opens
+  useEffect(() => {
+    if (open && !sessionId) {
+      const initSession = async () => {
+        const newSessionId = await createSession('policy', {
+          currentStep: 1,
+          formData: { selectedTemplate, policyData }
+        });
+        setSessionId(newSessionId);
+      };
+      initSession();
+    }
+  }, [open, sessionId, createSession, selectedTemplate, policyData]);
+
+  // Handle wizard close/cancel
+  const handleCancel = async () => {
+    if (sessionId) {
+      await cancelSession(sessionId, 'User cancelled the policy wizard');
+    }
+    onOpenChange(false);
+    resetForm();
   };
 
   const isStepValid = () => {

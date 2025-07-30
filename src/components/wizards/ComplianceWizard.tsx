@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CheckCircle, FileText, Shield, Settings, Globe, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -13,6 +13,8 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import { useWizardSession } from "@/hooks/useWizardSession";
+import { toast } from "sonner";
 
 interface ComplianceWizardProps {
   open: boolean;
@@ -80,9 +82,11 @@ const STEPS = [
 ];
 
 export function ComplianceWizard({ open, onOpenChange, onAssessmentCreated }: ComplianceWizardProps) {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
+  const { createSession, updateSessionProgress, completeSession, cancelSession, isLoading: sessionLoading } = useWizardSession();
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [sessionId, setSessionId] = useState<string | null>(null);
   
   // Form data
   const [selectedFrameworks, setSelectedFrameworks] = useState<string[]>([]);
@@ -102,9 +106,18 @@ export function ComplianceWizard({ open, onOpenChange, onAssessmentCreated }: Co
 
   const progress = (currentStep / STEPS.length) * 100;
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (currentStep < STEPS.length) {
       setCurrentStep(currentStep + 1);
+      
+      // Update session progress
+      if (sessionId) {
+        await updateSessionProgress(sessionId, {
+          currentStep: currentStep + 1,
+          stepData: { [`step_${currentStep}`]: { selectedFrameworks, assessmentData } },
+          formData: { selectedFrameworks, assessmentData }
+        });
+      }
     } else {
       handleSubmit();
     }
@@ -141,16 +154,41 @@ export function ComplianceWizard({ open, onOpenChange, onAssessmentCreated }: Co
           selected_controls: selectedFrameworkData.map(f => f.name),
           status: 'planned',
           created_by: user?.id,
-          organization_id: user?.user_metadata?.organization_id
+          organization_id: profile?.organization_id
         });
 
       if (error) throw error;
 
+      // Complete wizard session
+      if (sessionId) {
+        await completeSession(sessionId, {
+          formInputs: { selectedFrameworks, assessmentData },
+          completionMetrics: {
+            totalSteps: STEPS.length,
+            completedSteps: STEPS.length,
+            startTimestamp: new Date().toISOString(),
+            endTimestamp: new Date().toISOString(),
+            userAgent: navigator.userAgent
+          },
+          generatedArtifacts: {
+            summaries: [`Created compliance assessment: ${assessmentData.title}`]
+          },
+          outcomeStatus: 'success',
+          context: {
+            browserInfo: navigator.userAgent,
+            deviceType: /Mobile|Android|iPhone|iPad/.test(navigator.userAgent) ? 'mobile' : 'desktop',
+            userRole: profile?.role || 'user'
+          }
+        }, `Compliance assessment "${assessmentData.title}" created successfully with ${selectedFrameworkData.length} frameworks selected.`);
+      }
+
+      toast.success("Compliance assessment created successfully!");
       onAssessmentCreated?.();
       onOpenChange(false);
       resetForm();
     } catch (error) {
       console.error('Error creating compliance assessment:', error);
+      toast.error("Failed to create compliance assessment");
     } finally {
       setLoading(false);
     }
@@ -158,6 +196,7 @@ export function ComplianceWizard({ open, onOpenChange, onAssessmentCreated }: Co
 
   const resetForm = () => {
     setCurrentStep(1);
+    setSessionId(null);
     setSelectedFrameworks([]);
     setAssessmentData({
       title: '',
@@ -172,6 +211,29 @@ export function ComplianceWizard({ open, onOpenChange, onAssessmentCreated }: Co
       budgetRange: '',
       deliverables: []
     });
+  };
+
+  // Create session when wizard opens
+  useEffect(() => {
+    if (open && !sessionId) {
+      const initSession = async () => {
+        const newSessionId = await createSession('compliance', {
+          currentStep: 1,
+          formData: { selectedFrameworks, assessmentData }
+        });
+        setSessionId(newSessionId);
+      };
+      initSession();
+    }
+  }, [open, sessionId, createSession, selectedFrameworks, assessmentData]);
+
+  // Handle wizard close/cancel
+  const handleCancel = async () => {
+    if (sessionId) {
+      await cancelSession(sessionId, 'User cancelled the compliance wizard');
+    }
+    onOpenChange(false);
+    resetForm();
   };
 
   const isStepValid = () => {
