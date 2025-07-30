@@ -56,14 +56,14 @@ export function Header() {
           />
           <div className="hidden sm:block">
             <div className="flex items-center gap-2">
-              <h1 className="text-lg font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+              <h1 className="text-lg font-bold font-montserrat bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
                 TITANIS™
               </h1>
-              <span className="px-2 py-0.5 bg-primary/20 text-primary text-xs font-medium rounded-md border border-primary/30">
+              <span className="px-2 py-0.5 bg-secondary/20 text-secondary text-xs font-medium font-montserrat rounded-md border border-secondary/30">
                 BETA
               </span>
             </div>
-            <p className="text-xs text-muted-foreground -mt-1">Enterprise GRC Platform</p>
+            <p className="text-xs text-muted-foreground font-montserrat -mt-1">Powered by Titanide</p>
           </div>
         </div>
         <div className="relative w-full max-w-md">

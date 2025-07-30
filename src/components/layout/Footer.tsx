@@ -6,13 +6,13 @@ export function Footer() {
       <div className="container flex h-14 max-w-screen-2xl items-center">
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
           <div className="w-full flex-1 md:w-auto md:flex-none">
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-muted-foreground font-montserrat">
               © 2024 TITANIS™ Platform (BETA). Powered by{" "}
               <a
                 href="https://www.titanideconsulting.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-medium text-foreground hover:text-primary transition-colors"
+                className="font-medium font-montserrat text-secondary hover:text-primary transition-colors"
               >
                 Titanide Consulting Group
               </a>

@@ -6,26 +6,30 @@
 
 @layer base {
   :root {
-    /* Core Brand Colors - Titanium Professional Palette */
-    --background: 210 20% 98%;
-    --foreground: 204 25% 15%;
+    /* Official Titanide Brand Colors */
+    --background: 0 0% 100%;
+    --foreground: 237 80% 43%; /* Deep Blue #2A1DB2 */
 
     --card: 0 0% 100%;
-    --card-foreground: 204 25% 15%;
+    --card-foreground: 237 80% 43%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 204 25% 15%;
+    --popover-foreground: 237 80% 43%;
 
-    /* Primary - Titanide Gold */
-    --primary: 45 90% 55%;
+    /* Primary - Deep Blue (#2A1DB2) */
+    --primary: 237 80% 43%;
     --primary-foreground: 0 0% 100%;
-    --primary-hover: 45 90% 50%;
-    --primary-light: 45 90% 95%;
+    --primary-hover: 237 80% 38%;
+    --primary-light: 237 80% 95%;
 
-    /* Secondary - Titanide Navy */
-    --secondary: 210 60% 20%;
+    /* Secondary - Primary Gold (#C1A33D) */
+    --secondary: 48 55% 50%;
     --secondary-foreground: 0 0% 100%;
-    --secondary-hover: 210 60% 15%;
+    --secondary-hover: 48 55% 45%;
+
+    /* Accent - Gold Highlight (#F4E19B) */
+    --accent: 48 73% 78%;
+    --accent-foreground: 237 80% 43%;
 
     /* Success - Enterprise Green */
     --success: 145 60% 42%;
@@ -42,45 +46,42 @@
     --danger-foreground: 0 0% 100%;
     --danger-light: 0 80% 95%;
 
-    --muted: 204 15% 95%;
-    --muted-foreground: 204 20% 50%;
-
-    --accent: 204 85% 50%;
-    --accent-foreground: 0 0% 100%;
+    --muted: 48 73% 95%;
+    --muted-foreground: 237 50% 60%;
 
     --destructive: 0 80% 58%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 204 20% 88%;
-    --input: 204 20% 95%;
-    --ring: 204 85% 45%;
+    --border: 48 30% 88%;
+    --input: 48 30% 95%;
+    --ring: 237 80% 43%;
 
     --radius: 0.75rem;
 
-    /* TITANIS™ Titanium Gradients for depth and elegance */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(204 85% 35%));
-    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary)), hsl(204 15% 85%));
+    /* Official Titanide Brand Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(237 80% 38%));
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--accent)));
+    --gradient-titanide: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--accent)));
     --gradient-success: linear-gradient(135deg, hsl(var(--success)), hsl(145 60% 32%));
     --gradient-warning: linear-gradient(135deg, hsl(var(--warning)), hsl(35 80% 40%));
     --gradient-danger: linear-gradient(135deg, hsl(var(--danger)), hsl(0 80% 48%));
-    --gradient-titanium: linear-gradient(135deg, hsl(204 85% 45%), hsl(204 70% 65%));
 
-    /* Professional shadows with titanium undertones */
-    --shadow-sm: 0 2px 4px -1px hsl(204 25% 25% / 0.1), 0 1px 2px -1px hsl(204 25% 25% / 0.06);
-    --shadow-md: 0 4px 6px -1px hsl(204 25% 25% / 0.1), 0 2px 4px -1px hsl(204 25% 25% / 0.06);
-    --shadow-lg: 0 10px 15px -3px hsl(204 25% 25% / 0.1), 0 4px 6px -2px hsl(204 25% 25% / 0.05);
-    --shadow-xl: 0 20px 25px -5px hsl(204 25% 25% / 0.1), 0 10px 10px -5px hsl(204 25% 25% / 0.04);
-    --shadow-titanium: 0 8px 25px -5px hsl(204 85% 45% / 0.15), 0 4px 10px -5px hsl(204 85% 45% / 0.08);
+    /* Professional shadows with Titanide brand undertones */
+    --shadow-sm: 0 2px 4px -1px hsl(237 80% 25% / 0.1), 0 1px 2px -1px hsl(237 80% 25% / 0.06);
+    --shadow-md: 0 4px 6px -1px hsl(237 80% 25% / 0.1), 0 2px 4px -1px hsl(237 80% 25% / 0.06);
+    --shadow-lg: 0 10px 15px -3px hsl(237 80% 25% / 0.1), 0 4px 6px -2px hsl(237 80% 25% / 0.05);
+    --shadow-xl: 0 20px 25px -5px hsl(237 80% 25% / 0.1), 0 10px 10px -5px hsl(237 80% 25% / 0.04);
+    --shadow-titanide: 0 8px 25px -5px hsl(237 80% 43% / 0.15), 0 4px 10px -5px hsl(237 80% 43% / 0.08);
 
-    /* TITANIS™ Enterprise Navigation */
-    --sidebar-background: 210 60% 20%;
+    /* TITANIS™ Enterprise Navigation - Official Titanide Colors */
+    --sidebar-background: 237 80% 43%;
     --sidebar-foreground: 0 0% 95%;
-    --sidebar-primary: 45 90% 55%;
+    --sidebar-primary: 48 55% 50%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 210 60% 25%;
+    --sidebar-accent: 237 80% 48%;
     --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 210 60% 30%;
-    --sidebar-ring: 45 90% 55%;
+    --sidebar-border: 237 70% 50%;
+    --sidebar-ring: 48 55% 50%;
   }
 
   .dark {
@@ -128,6 +129,6 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-montserrat;
   }
 }
