@@ -232,7 +232,7 @@ export default function Auth() {
           <div className="text-center lg:text-left">
             <div className="flex items-center justify-center lg:justify-start space-x-3 mb-6">
             <img 
-              src="/lovable-uploads/42c8c79b-3596-42d4-999f-0c7a32d30cd4.png" 
+              src="/assets/titanide-logo.png" 
               alt="Titanide Logo" 
               className="w-12 h-12" 
             />
