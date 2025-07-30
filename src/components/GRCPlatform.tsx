@@ -15,6 +15,7 @@ import { TeamManagement } from "./team/TeamManagement";
 import { ReportBuilder } from "./reports/ReportBuilder";
 import { AutomatedReporting } from "./reports/AutomatedReporting";
 import { BoardReporting } from "./reports/BoardReporting";
+import { ComplianceCalendar } from "./calendar/ComplianceCalendar";
 
 // TITANIS™ Placeholder components for upcoming modules
 const PlaceholderComponent = ({ title }: { title: string }) => (
@@ -47,6 +48,8 @@ export function GRCPlatform() {
     switch (activeTab) {
       case "dashboard":
         return <Dashboard />;
+      case "calendar":
+        return <ComplianceCalendar />;
       case "risk":
         return <RiskManagement />;
       case "compliance":

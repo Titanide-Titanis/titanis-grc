@@ -1927,6 +1927,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      check_auth_security_settings: {
+        Args: Record<PropertyKey, never>
+        Returns: Json
+      }
       check_organization_access: {
         Args: { target_org_id: string }
         Returns: boolean
@@ -1953,6 +1957,10 @@ export type Database = {
       cleanup_expired_sessions: {
         Args: Record<PropertyKey, never>
         Returns: undefined
+      }
+      enhanced_password_validation: {
+        Args: { p_password: string; p_email?: string }
+        Returns: Json
       }
       get_current_user_organization: {
         Args: Record<PropertyKey, never>

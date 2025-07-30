@@ -16,7 +16,8 @@ import {
   Bell,
   Menu,
   X,
-  Building2
+  Building2,
+  Calendar
 } from "lucide-react";
 
 interface SidebarProps {
@@ -26,6 +27,7 @@ interface SidebarProps {
 
 const navigation = [
   { id: 'dashboard', name: 'Dashboard', icon: Home },
+  { id: 'calendar', name: 'Compliance Calendar', icon: Calendar },
   { id: 'risk', name: 'Risk Management', icon: AlertTriangle },
   { id: 'compliance', name: 'Compliance', icon: CheckCircle },
   { id: 'policies', name: 'Policies', icon: FileText },
