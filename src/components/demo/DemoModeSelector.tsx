@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { InlineVideoEmbed } from './InlineVideoEmbed';
 import { 
   Building2, 
   Heart, 
@@ -12,8 +13,15 @@ import {
   Play, 
   Eye,
   ArrowRight,
-  Star
+  Star,
+  Video
 } from "lucide-react";
+
+// Import video thumbnails
+import bankingRiskThumb from '@/assets/video-thumbnails/banking-risk.jpg';
+import healthcareHipaaThumb from '@/assets/video-thumbnails/healthcare-hipaa.jpg';
+import techIso27001Thumb from '@/assets/video-thumbnails/tech-iso27001.jpg';
+import platformOverviewThumb from '@/assets/video-thumbnails/platform-overview.jpg';
 
 interface DemoScenario {
   id: string;
@@ -155,6 +163,58 @@ export const DemoModeSelector: React.FC<DemoModeSelectorProps> = ({
             </CardContent>
           </Card>
         ))}
+      </div>
+
+      {/* Demo Video Showcase */}
+      <div className="border-t pt-8 space-y-6">
+        <div className="text-center space-y-2">
+          <h2 className="text-2xl font-bold">Watch TITANIS™ in Action</h2>
+          <p className="text-muted-foreground">
+            See how our platform transforms GRC processes with these demo videos
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <InlineVideoEmbed
+            videoId="platform-intro"
+            title="TITANIS™ Platform Introduction"
+            description="Get an overview of the complete TITANIS™ GRC platform and its key capabilities."
+            duration="5:32"
+            thumbnail={platformOverviewThumb}
+            category="Platform Overview"
+            onPlay={() => console.log('Playing platform intro')}
+            onViewFull={() => console.log('View full demo video library')}
+          />
+
+          {selectedScenario && (
+            <InlineVideoEmbed
+              videoId={`${selectedScenario}-demo`}
+              title={`${demoScenarios.find(s => s.id === selectedScenario)?.name} Demo`}
+              description={`See TITANIS™ in action for ${demoScenarios.find(s => s.id === selectedScenario)?.industry} scenarios.`}
+              duration="8:45"
+              thumbnail={
+                selectedScenario === 'financial' ? bankingRiskThumb :
+                selectedScenario === 'healthcare' ? healthcareHipaaThumb :
+                selectedScenario === 'technology' ? techIso27001Thumb :
+                platformOverviewThumb
+              }
+              category="Industry Demo"
+              onPlay={() => console.log(`Playing ${selectedScenario} demo`)}
+              onViewFull={() => console.log('View full demo video library')}
+            />
+          )}
+        </div>
+
+        <div className="text-center">
+          <Button
+            variant="outline"
+            className="gap-2"
+            onClick={() => console.log('Navigate to video library')}
+          >
+            <Video className="h-4 w-4" />
+            View All Demo Videos
+          </Button>
+        </div>
       </div>
 
       <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6">
