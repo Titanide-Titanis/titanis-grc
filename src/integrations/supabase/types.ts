@@ -165,31 +165,43 @@ export type Database = {
       }
       auth_audit_logs: {
         Row: {
+          additional_context: Json | null
           created_at: string
           event_type: string
           id: string
           ip_address: unknown | null
           metadata: Json | null
+          organization_id: string | null
+          risk_score: number | null
+          session_id: string | null
           success: boolean
           user_agent: string | null
           user_id: string | null
         }
         Insert: {
+          additional_context?: Json | null
           created_at?: string
           event_type: string
           id?: string
           ip_address?: unknown | null
           metadata?: Json | null
+          organization_id?: string | null
+          risk_score?: number | null
+          session_id?: string | null
           success?: boolean
           user_agent?: string | null
           user_id?: string | null
         }
         Update: {
+          additional_context?: Json | null
           created_at?: string
           event_type?: string
           id?: string
           ip_address?: unknown | null
           metadata?: Json | null
+          organization_id?: string | null
+          risk_score?: number | null
+          session_id?: string | null
           success?: boolean
           user_agent?: string | null
           user_id?: string | null
@@ -523,6 +535,48 @@ export type Database = {
           },
         ]
       }
+      enhanced_auth_attempts: {
+        Row: {
+          additional_data: Json | null
+          attempt_type: string
+          created_at: string
+          email: string
+          failure_reason: string | null
+          id: string
+          ip_address: unknown
+          organization_id: string | null
+          risk_score: number | null
+          success: boolean
+          user_agent: string | null
+        }
+        Insert: {
+          additional_data?: Json | null
+          attempt_type: string
+          created_at?: string
+          email: string
+          failure_reason?: string | null
+          id?: string
+          ip_address: unknown
+          organization_id?: string | null
+          risk_score?: number | null
+          success?: boolean
+          user_agent?: string | null
+        }
+        Update: {
+          additional_data?: Json | null
+          attempt_type?: string
+          created_at?: string
+          email?: string
+          failure_reason?: string | null
+          id?: string
+          ip_address?: unknown
+          organization_id?: string | null
+          risk_score?: number | null
+          success?: boolean
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       failed_login_attempts: {
         Row: {
           attempted_at: string
@@ -702,6 +756,7 @@ export type Database = {
           title: string
           type: string
           user_id: string | null
+          wizard_session_id: string | null
         }
         Insert: {
           created_at?: string
@@ -715,6 +770,7 @@ export type Database = {
           title: string
           type: string
           user_id?: string | null
+          wizard_session_id?: string | null
         }
         Update: {
           created_at?: string
@@ -728,8 +784,17 @@ export type Database = {
           title?: string
           type?: string
           user_id?: string | null
+          wizard_session_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "notifications_wizard_session_id_fkey"
+            columns: ["wizard_session_id"]
+            isOneToOne: false
+            referencedRelation: "wizard_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       organizations: {
         Row: {
@@ -770,6 +835,81 @@ export type Database = {
           subscription_plan?: string | null
           subscription_status?: string | null
           updated_at?: string
+        }
+        Relationships: []
+      }
+      otp_tokens: {
+        Row: {
+          code_hash: string
+          created_at: string
+          email: string
+          expires_at: string
+          id: string
+          ip_address: unknown | null
+          purpose: string
+          used_at: string | null
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          code_hash: string
+          created_at?: string
+          email: string
+          expires_at: string
+          id?: string
+          ip_address?: unknown | null
+          purpose: string
+          used_at?: string | null
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          code_hash?: string
+          created_at?: string
+          email?: string
+          expires_at?: string
+          id?: string
+          ip_address?: unknown | null
+          purpose?: string
+          used_at?: string | null
+          user_agent?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      password_reset_tokens: {
+        Row: {
+          created_at: string
+          email: string
+          expires_at: string
+          id: string
+          ip_address: unknown | null
+          token_hash: string
+          used_at: string | null
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          expires_at: string
+          id?: string
+          ip_address?: unknown | null
+          token_hash: string
+          used_at?: string | null
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          expires_at?: string
+          id?: string
+          ip_address?: unknown | null
+          token_hash?: string
+          used_at?: string | null
+          user_agent?: string | null
+          user_id?: string
         }
         Relationships: []
       }
@@ -926,6 +1066,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      rate_limit_attempts: {
+        Row: {
+          attempt_count: number
+          blocked_until: string | null
+          created_at: string
+          id: string
+          identifier: string
+          identifier_type: string
+          updated_at: string
+          window_start: string
+        }
+        Insert: {
+          attempt_count?: number
+          blocked_until?: string | null
+          created_at?: string
+          id?: string
+          identifier: string
+          identifier_type: string
+          updated_at?: string
+          window_start?: string
+        }
+        Update: {
+          attempt_count?: number
+          blocked_until?: string | null
+          created_at?: string
+          id?: string
+          identifier?: string
+          identifier_type?: string
+          updated_at?: string
+          window_start?: string
+        }
+        Relationships: []
       }
       risk_categories: {
         Row: {
@@ -1201,6 +1374,48 @@ export type Database = {
           tutorial_preferences?: Json | null
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      user_sessions: {
+        Row: {
+          created_at: string
+          expires_at: string
+          id: string
+          invalidated_at: string | null
+          ip_address: unknown | null
+          last_activity: string
+          role_at_login: Database["public"]["Enums"]["user_role"]
+          session_token: string
+          user_agent: string | null
+          user_id: string
+          user_role: Database["public"]["Enums"]["user_role"]
+        }
+        Insert: {
+          created_at?: string
+          expires_at: string
+          id?: string
+          invalidated_at?: string | null
+          ip_address?: unknown | null
+          last_activity?: string
+          role_at_login: Database["public"]["Enums"]["user_role"]
+          session_token: string
+          user_agent?: string | null
+          user_id: string
+          user_role: Database["public"]["Enums"]["user_role"]
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          invalidated_at?: string | null
+          ip_address?: unknown | null
+          last_activity?: string
+          role_at_login?: Database["public"]["Enums"]["user_role"]
+          session_token?: string
+          user_agent?: string | null
+          user_id?: string
+          user_role?: Database["public"]["Enums"]["user_role"]
         }
         Relationships: []
       }
