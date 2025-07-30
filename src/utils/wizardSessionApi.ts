@@ -150,17 +150,31 @@ export const createCompletionNotification = async (
   sessionId: string
 ) => {
   try {
+    const wizardDisplayNames: Record<string, string> = {
+      'risk': 'Risk Assessment',
+      'compliance': 'Compliance Assessment', 
+      'audit': 'Audit Setup',
+      'incident': 'Incident Report',
+      'policy': 'Policy Creation',
+      'vendor': 'Vendor Onboarding'
+    };
+
+    const displayName = wizardDisplayNames[wizardType] || wizardType.charAt(0).toUpperCase() + wizardType.slice(1);
+
     await supabase.from('notifications').insert({
       user_id: userId,
       organization_id: organizationId,
       type: 'wizard_completion',
-      title: `${wizardType.charAt(0).toUpperCase() + wizardType.slice(1)} Wizard Completed`,
-      message: summary,
+      title: `${displayName} Completed`,
+      message: summary || `Your ${displayName.toLowerCase()} has been successfully completed and saved.`,
       priority: 'normal',
+      wizard_session_id: sessionId, // Link to wizard session
       data: {
         wizard_session_id: sessionId,
         wizard_type: wizardType,
         completion_time: new Date().toISOString(),
+        completion_summary: summary,
+        result_url: `${window.location.origin}/dashboard?session=${sessionId}`,
       },
     });
   } catch (error) {
