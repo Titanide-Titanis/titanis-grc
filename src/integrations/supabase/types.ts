@@ -259,6 +259,70 @@ export type Database = {
         }
         Relationships: []
       }
+      calendar_integrations: {
+        Row: {
+          access_token: string | null
+          auto_create_reminders: boolean | null
+          created_at: string
+          external_calendar_id: string | null
+          id: string
+          last_sync_at: string | null
+          organization_id: string
+          provider: string
+          refresh_token: string | null
+          sync_categories: Database["public"]["Enums"]["task_category"][] | null
+          sync_direction: string | null
+          sync_enabled: boolean | null
+          sync_error_message: string | null
+          sync_status: string | null
+          token_expires_at: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          access_token?: string | null
+          auto_create_reminders?: boolean | null
+          created_at?: string
+          external_calendar_id?: string | null
+          id?: string
+          last_sync_at?: string | null
+          organization_id: string
+          provider: string
+          refresh_token?: string | null
+          sync_categories?:
+            | Database["public"]["Enums"]["task_category"][]
+            | null
+          sync_direction?: string | null
+          sync_enabled?: boolean | null
+          sync_error_message?: string | null
+          sync_status?: string | null
+          token_expires_at?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          access_token?: string | null
+          auto_create_reminders?: boolean | null
+          created_at?: string
+          external_calendar_id?: string | null
+          id?: string
+          last_sync_at?: string | null
+          organization_id?: string
+          provider?: string
+          refresh_token?: string | null
+          sync_categories?:
+            | Database["public"]["Enums"]["task_category"][]
+            | null
+          sync_direction?: string | null
+          sync_enabled?: boolean | null
+          sync_error_message?: string | null
+          sync_status?: string | null
+          token_expires_at?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       compliance_assessments: {
         Row: {
           actual_end_date: string | null
@@ -449,6 +513,90 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      compliance_tasks: {
+        Row: {
+          actual_hours: number | null
+          assigned_to: string | null
+          attachments: Json | null
+          category: Database["public"]["Enums"]["task_category"]
+          completed_at: string | null
+          completion_percentage: number | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          due_date: string | null
+          estimated_hours: number | null
+          id: string
+          linked_entity_id: string | null
+          linked_entity_type: string | null
+          metadata: Json | null
+          organization_id: string
+          parent_task_id: string | null
+          priority: Database["public"]["Enums"]["task_priority"]
+          recurrence_end_date: string | null
+          recurrence_interval: number | null
+          recurrence_pattern: Database["public"]["Enums"]["recurrence_pattern"]
+          start_date: string | null
+          status: Database["public"]["Enums"]["task_status"]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          actual_hours?: number | null
+          assigned_to?: string | null
+          attachments?: Json | null
+          category?: Database["public"]["Enums"]["task_category"]
+          completed_at?: string | null
+          completion_percentage?: number | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          due_date?: string | null
+          estimated_hours?: number | null
+          id?: string
+          linked_entity_id?: string | null
+          linked_entity_type?: string | null
+          metadata?: Json | null
+          organization_id: string
+          parent_task_id?: string | null
+          priority?: Database["public"]["Enums"]["task_priority"]
+          recurrence_end_date?: string | null
+          recurrence_interval?: number | null
+          recurrence_pattern?: Database["public"]["Enums"]["recurrence_pattern"]
+          start_date?: string | null
+          status?: Database["public"]["Enums"]["task_status"]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          actual_hours?: number | null
+          assigned_to?: string | null
+          attachments?: Json | null
+          category?: Database["public"]["Enums"]["task_category"]
+          completed_at?: string | null
+          completion_percentage?: number | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          due_date?: string | null
+          estimated_hours?: number | null
+          id?: string
+          linked_entity_id?: string | null
+          linked_entity_type?: string | null
+          metadata?: Json | null
+          organization_id?: string
+          parent_task_id?: string | null
+          priority?: Database["public"]["Enums"]["task_priority"]
+          recurrence_end_date?: string | null
+          recurrence_interval?: number | null
+          recurrence_pattern?: Database["public"]["Enums"]["recurrence_pattern"]
+          start_date?: string | null
+          status?: Database["public"]["Enums"]["task_status"]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       documents: {
         Row: {
@@ -1278,6 +1426,125 @@ export type Database = {
         }
         Relationships: []
       }
+      surge_alert_configs: {
+        Row: {
+          alert_name: string
+          alert_type: string
+          created_at: string
+          id: string
+          is_active: boolean | null
+          last_triggered: string | null
+          notification_types:
+            | Database["public"]["Enums"]["reminder_type"][]
+            | null
+          organization_id: string
+          recipient_roles: string[] | null
+          recipient_users: string[] | null
+          threshold_period_hours: number
+          threshold_value: number
+          trigger_count: number | null
+          updated_at: string
+        }
+        Insert: {
+          alert_name: string
+          alert_type: string
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          last_triggered?: string | null
+          notification_types?:
+            | Database["public"]["Enums"]["reminder_type"][]
+            | null
+          organization_id: string
+          recipient_roles?: string[] | null
+          recipient_users?: string[] | null
+          threshold_period_hours?: number
+          threshold_value: number
+          trigger_count?: number | null
+          updated_at?: string
+        }
+        Update: {
+          alert_name?: string
+          alert_type?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          last_triggered?: string | null
+          notification_types?:
+            | Database["public"]["Enums"]["reminder_type"][]
+            | null
+          organization_id?: string
+          recipient_roles?: string[] | null
+          recipient_users?: string[] | null
+          threshold_period_hours?: number
+          threshold_value?: number
+          trigger_count?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      task_reminders: {
+        Row: {
+          created_at: string
+          delivery_status: string | null
+          error_message: string | null
+          id: string
+          is_delivered: boolean | null
+          is_sent: boolean | null
+          message: string | null
+          recipient_email: string | null
+          recipient_id: string | null
+          recipient_phone: string | null
+          remind_before_minutes: number
+          reminder_type: Database["public"]["Enums"]["reminder_type"]
+          sent_at: string | null
+          subject: string | null
+          task_id: string
+        }
+        Insert: {
+          created_at?: string
+          delivery_status?: string | null
+          error_message?: string | null
+          id?: string
+          is_delivered?: boolean | null
+          is_sent?: boolean | null
+          message?: string | null
+          recipient_email?: string | null
+          recipient_id?: string | null
+          recipient_phone?: string | null
+          remind_before_minutes: number
+          reminder_type: Database["public"]["Enums"]["reminder_type"]
+          sent_at?: string | null
+          subject?: string | null
+          task_id: string
+        }
+        Update: {
+          created_at?: string
+          delivery_status?: string | null
+          error_message?: string | null
+          id?: string
+          is_delivered?: boolean | null
+          is_sent?: boolean | null
+          message?: string | null
+          recipient_email?: string | null
+          recipient_id?: string | null
+          recipient_phone?: string | null
+          remind_before_minutes?: number
+          reminder_type?: Database["public"]["Enums"]["reminder_type"]
+          sent_at?: string | null
+          subject?: string | null
+          task_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "task_reminders_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "compliance_tasks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       team_invitations: {
         Row: {
           accepted_at: string | null
@@ -1740,8 +2007,34 @@ export type Database = {
         | "approved"
         | "published"
         | "archived"
+      recurrence_pattern:
+        | "none"
+        | "daily"
+        | "weekly"
+        | "monthly"
+        | "quarterly"
+        | "annually"
+      reminder_type: "email" | "sms" | "in_app" | "slack" | "teams"
       risk_level: "low" | "medium" | "high" | "critical"
       risk_status: "open" | "in_progress" | "mitigated" | "accepted" | "closed"
+      task_category:
+        | "audit_due"
+        | "policy_review"
+        | "incident_followup"
+        | "training_deadline"
+        | "compliance_deadline"
+        | "vendor_assessment"
+        | "risk_review"
+        | "regulatory_filing"
+        | "credentialing"
+        | "general"
+      task_priority: "low" | "medium" | "high" | "urgent"
+      task_status:
+        | "pending"
+        | "in_progress"
+        | "completed"
+        | "overdue"
+        | "cancelled"
       user_role:
         | "super_admin"
         | "admin"
@@ -1900,8 +2193,37 @@ export const Constants = {
         "published",
         "archived",
       ],
+      recurrence_pattern: [
+        "none",
+        "daily",
+        "weekly",
+        "monthly",
+        "quarterly",
+        "annually",
+      ],
+      reminder_type: ["email", "sms", "in_app", "slack", "teams"],
       risk_level: ["low", "medium", "high", "critical"],
       risk_status: ["open", "in_progress", "mitigated", "accepted", "closed"],
+      task_category: [
+        "audit_due",
+        "policy_review",
+        "incident_followup",
+        "training_deadline",
+        "compliance_deadline",
+        "vendor_assessment",
+        "risk_review",
+        "regulatory_filing",
+        "credentialing",
+        "general",
+      ],
+      task_priority: ["low", "medium", "high", "urgent"],
+      task_status: [
+        "pending",
+        "in_progress",
+        "completed",
+        "overdue",
+        "cancelled",
+      ],
       user_role: [
         "super_admin",
         "admin",
