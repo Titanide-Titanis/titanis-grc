@@ -70,21 +70,34 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [trialDaysRemaining, setTrialDaysRemaining] = useState<number | null>(null);
 
   useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      (event, session) => {
+        console.log('Auth state change:', event, session?.user?.email);
         setSession(session);
         setUser(session?.user ?? null);
         
+        // Defer profile fetch to avoid deadlock
         if (session?.user) {
-          // Fetch user profile
-          const { data: profileData } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('id', session.user.id)
-            .single();
-          
-          setProfile(profileData);
+          setTimeout(async () => {
+            try {
+              const { data: profileData, error } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', session.user.id)
+                .maybeSingle();
+              
+              if (error) {
+                console.error('Profile fetch error:', error);
+              }
+              setProfile(profileData);
+            } catch (error) {
+              console.error('Profile fetch failed:', error);
+              setProfile(null);
+            }
+          }, 0);
         } else {
           setProfile(null);
         }
@@ -93,28 +106,53 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       }
     );
 
-    // Get initial session
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      
-      if (session?.user) {
-        // Fetch user profile
-        const { data: profileData } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', session.user.id)
-          .single();
+    // Get initial session with timeout fallback
+    const initializeAuth = async () => {
+      try {
+        const { data: { session }, error } = await supabase.auth.getSession();
+        console.log('Initial session:', session?.user?.email, error);
         
-        setProfile(profileData);
-      } else {
-        setProfile(null);
+        setSession(session);
+        setUser(session?.user ?? null);
+        
+        if (session?.user) {
+          try {
+            const { data: profileData, error: profileError } = await supabase
+              .from('profiles')
+              .select('*')
+              .eq('id', session.user.id)
+              .maybeSingle();
+            
+            if (profileError) {
+              console.error('Initial profile fetch error:', profileError);
+            }
+            setProfile(profileData);
+          } catch (error) {
+            console.error('Initial profile fetch failed:', error);
+            setProfile(null);
+          }
+        } else {
+          setProfile(null);
+        }
+      } catch (error) {
+        console.error('Session initialization failed:', error);
+      } finally {
+        setLoading(false);
       }
-      
-      setLoading(false);
-    });
+    };
 
-    return () => subscription.unsubscribe();
+    initializeAuth();
+
+    // Fallback timeout to prevent infinite loading
+    timeoutId = setTimeout(() => {
+      console.warn('Auth initialization timeout, forcing loading to false');
+      setLoading(false);
+    }, 10000);
+
+    return () => {
+      subscription.unsubscribe();
+      if (timeoutId) clearTimeout(timeoutId);
+    };
   }, []);
 
   // Trial/Demo mode management
