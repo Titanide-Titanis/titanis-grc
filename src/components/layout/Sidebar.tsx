@@ -2,6 +2,7 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useAuth } from "@/hooks/useAuth";
 import { 
   Shield, 
   BarChart3, 
@@ -45,6 +46,7 @@ const navigation = [
 
 export function Sidebar({ activeTab, onTabChange }: SidebarProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const { user, profile } = useAuth();
 
   return (
     <div className={cn(
@@ -56,7 +58,7 @@ export function Sidebar({ activeTab, onTabChange }: SidebarProps) {
         {!isCollapsed && (
           <div className="flex items-center space-x-2">
             <div className="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden">
-              <img src="/lovable-uploads/42c8c79b-3596-42d4-999f-0c7a32d30cd4.png" alt="TITANIS™ Logo" className="w-6 h-6 object-contain" />
+              <img src="/src/assets/titanide-logo.png" alt="Titanide Consulting Group Logo" className="w-6 h-6 object-contain" />
             </div>
             <div>
               <span className="text-xl font-bold bg-gradient-to-r from-sidebar-primary to-sidebar-primary/70 bg-clip-text text-transparent">
@@ -119,15 +121,20 @@ export function Sidebar({ activeTab, onTabChange }: SidebarProps) {
       <div className="p-4 border-t border-sidebar-border">
         <div className="flex items-center space-x-3 group cursor-pointer hover:bg-sidebar-accent/50 rounded-lg p-2 -m-2 transition-all">
           <div className="w-8 h-8 bg-gradient-to-br from-sidebar-primary to-sidebar-primary/70 rounded-full flex items-center justify-center ring-2 ring-sidebar-primary/30">
-            <span className="text-sm font-medium text-sidebar-primary-foreground">JD</span>
+            <span className="text-sm font-medium text-sidebar-primary-foreground">
+              {profile?.first_name?.[0] || user?.email?.[0] || 'U'}{profile?.last_name?.[0] || ''}
+            </span>
           </div>
           {!isCollapsed && (
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium text-sidebar-foreground truncate group-hover:text-sidebar-accent-foreground transition-colors">
-                John Doe
+                {profile?.first_name && profile?.last_name 
+                  ? `${profile.first_name} ${profile.last_name}`
+                  : user?.email?.split('@')[0] || 'User'
+                }
               </p>
               <p className="text-xs text-sidebar-foreground/60 truncate">
-                GRC Administrator
+                {profile?.role || 'GRC Administrator'}
               </p>
             </div>
           )}

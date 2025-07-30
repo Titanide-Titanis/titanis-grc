@@ -7,9 +7,9 @@ export function Footer() {
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
           <div className="w-full flex-1 md:w-auto md:flex-none">
             <p className="text-xs text-muted-foreground">
-              © 2024 TITANIS™ Platform. Powered by{" "}
+              © 2024 TITANIS™ Platform (BETA). Powered by{" "}
               <a
-                href="https://titanideconsulting.com"
+                href="https://www.titanideconsulting.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-medium text-foreground hover:text-primary transition-colors"

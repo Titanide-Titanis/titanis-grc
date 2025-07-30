@@ -50,14 +50,19 @@ export function Header() {
       <div className="flex items-center space-x-6 flex-1 max-w-2xl">
         <div className="flex items-center space-x-3">
           <img 
-            src="/lovable-uploads/42c8c79b-3596-42d4-999f-0c7a32d30cd4.png" 
-            alt="TITANIS™ Logo" 
+            src="/src/assets/titanide-logo.png" 
+            alt="Titanide Consulting Group Logo" 
             className="w-8 h-8 object-contain" 
           />
           <div className="hidden sm:block">
-            <h1 className="text-lg font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-              TITANIS™
-            </h1>
+            <div className="flex items-center gap-2">
+              <h1 className="text-lg font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                TITANIS™
+              </h1>
+              <span className="px-2 py-0.5 bg-primary/20 text-primary text-xs font-medium rounded-md border border-primary/30">
+                BETA
+              </span>
+            </div>
             <p className="text-xs text-muted-foreground -mt-1">Enterprise GRC Platform</p>
           </div>
         </div>

@@ -16,16 +16,16 @@
     --popover: 0 0% 100%;
     --popover-foreground: 204 25% 15%;
 
-    /* Primary - Titanium Blue (inspired by ServiceTitan) */
-    --primary: 204 85% 45%;
+    /* Primary - Titanide Gold */
+    --primary: 45 90% 55%;
     --primary-foreground: 0 0% 100%;
-    --primary-hover: 204 85% 40%;
-    --primary-light: 204 85% 95%;
+    --primary-hover: 45 90% 50%;
+    --primary-light: 45 90% 95%;
 
-    /* Secondary - Titanium Steel Gray */
-    --secondary: 204 15% 92%;
-    --secondary-foreground: 204 25% 25%;
-    --secondary-hover: 204 15% 88%;
+    /* Secondary - Titanide Navy */
+    --secondary: 210 60% 20%;
+    --secondary-foreground: 0 0% 100%;
+    --secondary-hover: 210 60% 15%;
 
     /* Success - Enterprise Green */
     --success: 145 60% 42%;
@@ -73,14 +73,14 @@
     --shadow-titanium: 0 8px 25px -5px hsl(204 85% 45% / 0.15), 0 4px 10px -5px hsl(204 85% 45% / 0.08);
 
     /* TITANIS™ Enterprise Navigation */
-    --sidebar-background: 204 25% 15%;
-    --sidebar-foreground: 204 15% 85%;
-    --sidebar-primary: 204 85% 45%;
+    --sidebar-background: 210 60% 20%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 45 90% 55%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 204 25% 20%;
-    --sidebar-accent-foreground: 204 15% 90%;
-    --sidebar-border: 204 25% 25%;
-    --sidebar-ring: 204 85% 45%;
+    --sidebar-accent: 210 60% 25%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 210 60% 30%;
+    --sidebar-ring: 45 90% 55%;
   }
 
   .dark {
