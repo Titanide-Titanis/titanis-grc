@@ -1664,6 +1664,29 @@ export type Database = {
         Args: { target_org_id: string }
         Returns: boolean
       }
+      check_rate_limit: {
+        Args: {
+          p_identifier: string
+          p_identifier_type: string
+          p_max_attempts?: number
+          p_window_minutes?: number
+        }
+        Returns: Json
+      }
+      check_rbac_permission: {
+        Args: {
+          p_user_id: string
+          p_organization_id: string
+          p_required_role: Database["public"]["Enums"]["user_role"]
+          p_resource_type?: string
+          p_action?: string
+        }
+        Returns: Json
+      }
+      cleanup_expired_sessions: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
       get_current_user_organization: {
         Args: Record<PropertyKey, never>
         Returns: string
@@ -1672,9 +1695,28 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: string
       }
+      record_rate_limit_attempt: {
+        Args: {
+          p_identifier: string
+          p_identifier_type: string
+          p_success?: boolean
+        }
+        Returns: undefined
+      }
       user_has_admin_role: {
         Args: Record<PropertyKey, never>
         Returns: boolean
+      }
+      validate_password_strength: {
+        Args: {
+          p_password: string
+          p_min_length?: number
+          p_require_uppercase?: boolean
+          p_require_lowercase?: boolean
+          p_require_numbers?: boolean
+          p_require_symbols?: boolean
+        }
+        Returns: Json
       }
     }
     Enums: {
