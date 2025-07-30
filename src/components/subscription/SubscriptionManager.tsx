@@ -28,7 +28,7 @@ interface SubscriptionManagerProps {
 
 export function SubscriptionManager({ open, onOpenChange }: SubscriptionManagerProps) {
   const [tiers, setTiers] = useState<SubscriptionTier[]>([]);
-  const [currentTier, setCurrentTier] = useState<string>("Free");
+  const [currentTier, setCurrentTier] = useState<string>("Demo");
   const [loading, setLoading] = useState(false);
   const [fetchingTiers, setFetchingTiers] = useState(false);
   const [billingInterval, setBillingInterval] = useState<"monthly" | "yearly">("monthly");
@@ -50,7 +50,7 @@ export function SubscriptionManager({ open, onOpenChange }: SubscriptionManagerP
       if (data) {
         setTiers(data.map((tier: any) => ({
           ...tier,
-          is_popular: tier.name === "Professional"
+          is_popular: tier.name === "Advanced"
         })));
       }
     } catch (error: any) {
@@ -97,21 +97,73 @@ export function SubscriptionManager({ open, onOpenChange }: SubscriptionManagerP
   };
 
   const handleUpgrade = async (tierId: string, tierName: string) => {
-    if (tierName === "Free") {
+    if (tierName === "Demo") {
       toast({
-        title: "Free Tier",
-        description: "You're already on the free tier! Explore our paid options for more features.",
+        title: "Demo Mode",
+        description: "You're in demo mode! Try our 14-day free trial or explore paid options for more features.",
       });
       return;
     }
 
-    if (tierName === "Enterprise Plus") {
+    if (tierName === "Trial") {
       toast({
-        title: "Enterprise Plus",
-        description: "Please contact sales@titanideconsulting.com for a custom Enterprise Plus quote.",
+        title: "Free Trial",
+        description: "Starting your 14-day free trial with full access to evaluate the platform!",
+      });
+      return;
+    }
+
+    if (tierName === "Enterprise") {
+      toast({
+        title: "Enterprise",
+        description: "Please contact sales@titanideconsulting.com for Enterprise pricing and custom deployment.",
       });
       // Open email client
-      window.open("mailto:sales@titanideconsulting.com?subject=Enterprise Plus Inquiry&body=Hi, I'm interested in learning more about the Enterprise Plus plan for TITANIS™ platform.");
+      window.open("mailto:sales@titanideconsulting.com?subject=Enterprise Inquiry&body=Hi, I'm interested in learning more about the Enterprise plan for TITANIS™ platform.");
+      return;
+    }
+
+    // For paid tiers (Starter, Advanced), create lead in Zoho CRM
+    if (tierName === "Starter" || tierName === "Advanced") {
+      try {
+        const { data: user } = await supabase.auth.getUser();
+        
+        // Create lead in zoho_leads table
+        const { error: leadError } = await supabase
+          .from('zoho_leads')
+          .insert({
+            email: user.user?.email || '',
+            selected_tier: tierName,
+            billing_interval: billingInterval,
+            metadata: { 
+              tier_id: tierId,
+              tier_price: billingInterval === 'yearly' ? tiers.find(t => t.id === tierId)?.price_yearly : tiers.find(t => t.id === tierId)?.price_monthly,
+              source: 'pricing_page' 
+            }
+          });
+
+        if (leadError) {
+          console.error('Error creating lead:', leadError);
+          toast({
+            title: "Error",
+            description: "Failed to process your request. Please try again.",
+            variant: "destructive",
+          });
+          return;
+        }
+
+        toast({
+          title: "Request Received",
+          description: `Thank you for your interest in ${tierName}! Our team will contact you within 24 hours to discuss pricing and onboarding.`,
+        });
+      } catch (error) {
+        console.error('Error handling paid tier selection:', error);
+        toast({
+          title: "Error",
+          description: "An error occurred. Please try again.",
+          variant: "destructive",
+        });
+      }
       return;
     }
 
@@ -142,17 +194,17 @@ export function SubscriptionManager({ open, onOpenChange }: SubscriptionManagerP
 
   const getTierIcon = (tierName: string) => {
     switch (tierName) {
-      case "Free": return <Star className="h-5 w-5" />;
-      case "Starter": return <Zap className="h-5 w-5" />;
-      case "Professional": return <Crown className="h-5 w-5" />;
+      case "Demo": return <Star className="h-5 w-5" />;
+      case "Trial": return <Zap className="h-5 w-5" />;
+      case "Starter": return <Check className="h-5 w-5" />;
+      case "Advanced": return <Crown className="h-5 w-5" />;
       case "Enterprise": return <Infinity className="h-5 w-5" />;
-      case "Enterprise Plus": return <Crown className="h-5 w-5" />;
       default: return <Star className="h-5 w-5" />;
     }
   };
 
   const formatPrice = (cents: number, tierName?: string) => {
-    if (tierName === "Enterprise Plus") return "Contact Sales";
+    if (tierName === "Enterprise") return "Contact Sales";
     if (cents === 0) return "Free";
     return `$${(cents / 100).toLocaleString()}`;
   };
@@ -160,31 +212,61 @@ export function SubscriptionManager({ open, onOpenChange }: SubscriptionManagerP
   const getFeatureList = (features: any, limits: any) => {
     const featureList = [];
     
-    if (features.basic_assessment) featureList.push("Basic compliance assessment");
-    if (features.full_assessment) featureList.push("Full compliance assessment");
-    if (features.risk_calculator) featureList.push("Risk calculator");
-    if (features.risk_management) featureList.push("Advanced risk management");
-    if (features.policy_library) featureList.push("Policy template library");
-    if (features.multiple_frameworks) featureList.push("Multiple frameworks support");
-    if (features.advanced_analytics) featureList.push("Advanced analytics & reporting");
-    if (features.custom_reports) featureList.push("Custom report builder");
-    if (features.workflow_automation) featureList.push("Workflow automation");
-    if (features.unlimited_frameworks) featureList.push("Unlimited frameworks");
-    if (features.ai_analytics) featureList.push("AI-powered analytics");
+    // Demo features
+    if (features.core_modules) featureList.push("Core GRC modules");
+    if (features.demo_mode) featureList.push("Demo mode access");
+    if (features.limited_users) featureList.push("Limited user access");
+    
+    // Trial features
+    if (features.trial_mode) featureList.push("14-day trial access");
+    if (features.full_access) featureList.push("Full platform access");
+    
+    // Starter features
+    if (features.core_grc_modules) featureList.push("Core GRC modules");
+    if (features.compliance_management) featureList.push("Compliance management");
+    if (features.policy_management) featureList.push("Policy management");
+    if (features.audit_management) featureList.push("Audit management");
+    if (features.email_support) featureList.push("Standard email support");
+    if (features.multi_framework) featureList.push("Multi-framework compliance");
+    
+    // Advanced features
+    if (features.all_starter_features) featureList.push("All Starter features");
+    if (features.predictive_analytics) featureList.push("Predictive analytics");
+    if (features.ai_role_management) featureList.push("AI role management");
+    if (features.executive_dashboards) featureList.push("Executive dashboards");
+    if (features.phone_email_support) featureList.push("Enhanced phone/email support");
+    if (features.vendor_management) featureList.push("Vendor management module");
+    
+    // Enterprise features
+    if (features.all_advanced_features) featureList.push("All Advanced features");
+    if (features.unlimited_admin_users) featureList.push("Unlimited admin users");
+    if (features.all_frameworks) featureList.push("All frameworks included");
+    if (features.on_premises) featureList.push("On-premises deployment");
+    if (features.dedicated_account_manager) featureList.push("Dedicated account manager");
     if (features.custom_integrations) featureList.push("Custom integrations");
-    if (features.white_label) featureList.push("White-label reports");
-    if (features.dedicated_csm) featureList.push("Dedicated customer success manager");
-    if (features.everything) featureList.push("Everything included");
-    if (features.custom_deployment) featureList.push("Custom deployment options");
-    if (features["24_7_support"]) featureList.push("24/7 premium support");
+    if (features.vip_onboarding) featureList.push("VIP onboarding");
 
     // Add limits
-    if (limits.users && limits.users > 0) featureList.push(`Up to ${limits.users} users`);
-    if (limits.users === -1) featureList.push("Unlimited users");
-    if (limits.frameworks && limits.frameworks > 0) featureList.push(`${limits.frameworks} framework${limits.frameworks > 1 ? 's' : ''}`);
-    if (limits.frameworks === -1) featureList.push("Unlimited frameworks");
-    if (limits.storage_gb && limits.storage_gb > 0) featureList.push(`${limits.storage_gb}GB storage`);
-    if (limits.storage_gb === -1) featureList.push("Unlimited storage");
+    if (limits.admin_users && limits.admin_users !== "unlimited") {
+      featureList.push(`Up to ${limits.admin_users} admin users`);
+    } else if (limits.admin_users === "unlimited") {
+      featureList.push("Unlimited admin users");
+    }
+    
+    if (limits.read_only_users && limits.read_only_users !== "unlimited") {
+      featureList.push(`Up to ${limits.read_only_users} read-only users`);
+    } else if (limits.read_only_users === "unlimited") {
+      featureList.push("Unlimited read-only users");
+    }
+    
+    if (limits.frameworks && limits.frameworks !== "unlimited") {
+      featureList.push(`${limits.frameworks} framework${limits.frameworks > 1 ? 's' : ''}`);
+    } else if (limits.frameworks === "unlimited") {
+      featureList.push("Unlimited frameworks");
+    }
+
+    if (limits.trial_days) featureList.push(`${limits.trial_days}-day trial`);
+    if (limits.support) featureList.push(`${limits.support} support`);
 
     return featureList.slice(0, 8); // Show max 8 features
   };
@@ -281,7 +363,7 @@ export function SubscriptionManager({ open, onOpenChange }: SubscriptionManagerP
                   <CardTitle className="text-lg">{tier.name}</CardTitle>
                   <div className="text-2xl font-bold">
                     {formatPrice(price, tier.name)}
-                    {tier.name !== "Free" && tier.name !== "Enterprise Plus" && (
+                    {tier.name !== "Demo" && tier.name !== "Trial" && tier.name !== "Enterprise" && (
                       <span className="text-sm font-normal text-muted-foreground">
                         /{billingInterval === "monthly" ? "mo" : "yr"}
                       </span>
@@ -309,10 +391,11 @@ export function SubscriptionManager({ open, onOpenChange }: SubscriptionManagerP
                     disabled={loading || isCurrentTier}
                   >
                     {isCurrentTier ? "Current Plan" : 
-                     tier.name === "Free" ? "Get Started" :
-                     tier.name === "Enterprise Plus" ? "Contact Sales" : 
-                     "Upgrade Now"}
-                    {!isCurrentTier && tier.name !== "Free" && tier.name !== "Enterprise Plus" && (
+                     tier.name === "Demo" ? "Get Started" :
+                     tier.name === "Trial" ? "Start Trial" :
+                     tier.name === "Enterprise" ? "Contact Sales" : 
+                     "Get Quote"}
+                    {!isCurrentTier && tier.name !== "Demo" && tier.name !== "Enterprise" && (
                       <ArrowRight className="ml-2 h-4 w-4" />
                     )}
                   </Button>

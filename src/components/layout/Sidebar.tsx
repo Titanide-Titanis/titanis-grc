@@ -53,8 +53,8 @@ export function Sidebar({ activeTab, onTabChange }: SidebarProps) {
       <div className="flex items-center justify-between p-4 border-b border-sidebar-border">
         {!isCollapsed && (
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-sidebar-primary to-sidebar-primary/70 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">T</span>
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden">
+              <img src="/lovable-uploads/42c8c79b-3596-42d4-999f-0c7a32d30cd4.png" alt="TITANIS™ Logo" className="w-6 h-6 object-contain" />
             </div>
             <div>
               <span className="text-xl font-bold bg-gradient-to-r from-sidebar-primary to-sidebar-primary/70 bg-clip-text text-transparent">

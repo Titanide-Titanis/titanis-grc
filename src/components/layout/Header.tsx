@@ -50,9 +50,9 @@ export function Header() {
       <div className="flex items-center space-x-6 flex-1 max-w-2xl">
         <div className="flex items-center space-x-3">
           <img 
-            src="/src/assets/titanide-logo.png" 
+            src="/lovable-uploads/42c8c79b-3596-42d4-999f-0c7a32d30cd4.png" 
             alt="TITANIS™ Logo" 
-            className="w-8 h-8 object-contain"
+            className="w-8 h-8 object-contain" 
           />
           <div className="hidden sm:block">
             <h1 className="text-lg font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">

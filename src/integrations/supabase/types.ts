@@ -1341,6 +1341,60 @@ export type Database = {
           },
         ]
       }
+      zoho_leads: {
+        Row: {
+          billing_interval: string
+          company: string | null
+          created_at: string
+          email: string
+          first_name: string | null
+          id: string
+          last_name: string | null
+          lead_source: string | null
+          lead_status: string | null
+          metadata: Json | null
+          phone: string | null
+          selected_tier: string
+          synced_to_zoho: boolean | null
+          updated_at: string
+          zoho_lead_id: string | null
+        }
+        Insert: {
+          billing_interval: string
+          company?: string | null
+          created_at?: string
+          email: string
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          lead_source?: string | null
+          lead_status?: string | null
+          metadata?: Json | null
+          phone?: string | null
+          selected_tier: string
+          synced_to_zoho?: boolean | null
+          updated_at?: string
+          zoho_lead_id?: string | null
+        }
+        Update: {
+          billing_interval?: string
+          company?: string | null
+          created_at?: string
+          email?: string
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          lead_source?: string | null
+          lead_status?: string | null
+          metadata?: Json | null
+          phone?: string | null
+          selected_tier?: string
+          synced_to_zoho?: boolean | null
+          updated_at?: string
+          zoho_lead_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

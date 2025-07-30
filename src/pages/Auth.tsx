@@ -231,11 +231,11 @@ export default function Auth() {
         <div className="space-y-8 animate-slide-in-left">
           <div className="text-center lg:text-left">
             <div className="flex items-center justify-center lg:justify-start space-x-3 mb-6">
-              <img 
-                src="/src/assets/titanide-logo.png" 
-                alt="Titanide Logo" 
-                className="w-12 h-12"
-              />
+            <img 
+              src="/lovable-uploads/42c8c79b-3596-42d4-999f-0c7a32d30cd4.png" 
+              alt="Titanide Logo" 
+              className="w-12 h-12" 
+            />
               <div>
                 <h1 className="text-5xl lg:text-7xl font-bold bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
                   TITANIS™
