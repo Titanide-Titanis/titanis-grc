@@ -231,18 +231,20 @@ export default function Auth() {
         <div className="space-y-8 animate-slide-in-left">
           <div className="text-center lg:text-left">
             <div className="flex items-center justify-center lg:justify-start space-x-3 mb-6">
-              <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary/70 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">T</span>
-              </div>
+              <img 
+                src="/src/assets/titanide-logo.png" 
+                alt="Titanide Logo" 
+                className="w-12 h-12"
+              />
               <div>
                 <h1 className="text-5xl lg:text-7xl font-bold bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
                   TITANIS™
                 </h1>
-                <p className="text-sm text-muted-foreground -mt-1">by Titanide Consulting</p>
+                <p className="text-sm text-muted-foreground -mt-1">Powered by Titanide</p>
               </div>
             </div>
             <p className="text-xl lg:text-2xl text-muted-foreground mb-8">
-              Titanide's Leading Enterprise Governance, Risk & Compliance Platform
+              The Next Generation in Enterprise Governance, Risk & Compliance
             </p>
             <div className="w-32 h-1 bg-gradient-to-r from-primary to-primary/50 mx-auto lg:mx-0 rounded-full"></div>
           </div>
@@ -253,9 +255,9 @@ export default function Auth() {
                 <Shield className="h-6 w-6 text-primary" />
               </div>
               <div>
-                <h3 className="font-semibold text-lg">Enterprise Security</h3>
+                <h3 className="font-semibold text-lg">Enterprise-Grade Security</h3>
                 <p className="text-muted-foreground">
-                  Military-grade security with leaked password protection, rate limiting, and comprehensive audit trails.
+                  Protect your organization with advanced security measures—military-grade encryption, proactive threat monitoring, and robust audit trails.
                 </p>
               </div>
             </div>
@@ -265,9 +267,9 @@ export default function Auth() {
                 <Users className="h-6 w-6 text-success" />
               </div>
               <div>
-                <h3 className="font-semibold text-lg">Intelligent Access Control</h3>
+                <h3 className="font-semibold text-lg">AI-Driven Access Control</h3>
                 <p className="text-muted-foreground">
-                  AI-powered role management with dynamic permissions and automated compliance workflows.
+                  Experience intelligent role management, adaptive permissions, and seamless compliance automation—powered by next-generation AI.
                 </p>
               </div>
             </div>
@@ -277,9 +279,9 @@ export default function Auth() {
                 <BarChart3 className="h-6 w-6 text-warning" />
               </div>
               <div>
-                <h3 className="font-semibold text-lg">Predictive Analytics</h3>
+                <h3 className="font-semibold text-lg">Predictive Insights & Analytics</h3>
                 <p className="text-muted-foreground">
-                  Real-time risk monitoring with machine learning insights and executive dashboards.
+                  Stay ahead with real-time risk monitoring, actionable machine learning insights, and executive-ready dashboards for smarter decision-making.
                 </p>
               </div>
             </div>
@@ -289,9 +291,9 @@ export default function Auth() {
                 <FileCheck className="h-6 w-6 text-accent" />
               </div>
               <div>
-                <h3 className="font-semibold text-lg">Multi-Framework Compliance</h3>
+                <h3 className="font-semibold text-lg">Unified Multi-Framework Compliance</h3>
                 <p className="text-muted-foreground">
-                  Automated compliance tracking for GDPR, HIPAA, ISO 27001, NIST, EU AI Act, and more.
+                  Effortlessly manage and automate compliance with global standards—GDPR, HIPAA, ISO 27001, NIST, EU AI Act, and more.
                 </p>
               </div>
             </div>
@@ -300,10 +302,10 @@ export default function Auth() {
           <div className="bg-gradient-to-r from-primary/10 to-transparent p-6 rounded-xl border border-primary/20">
             <div className="flex items-center space-x-3 mb-2">
               <Building2 className="h-5 w-5 text-primary" />
-              <span className="font-medium">Trusted by Fortune 500 Companies</span>
+              <span className="font-medium">Trusted by Industry Leaders</span>
             </div>
             <p className="text-sm text-muted-foreground">
-              Join thousands of organizations worldwide who trust TITANIS™ for their critical GRC operations.
+              Organizations across the healthcare spectrum, from FQHCs to Fortune 500 companies, rely on TITANIS™ for secure, intelligent, and transformative GRC operations.
             </p>
           </div>
         </div>
