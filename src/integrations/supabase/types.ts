@@ -1341,6 +1341,51 @@ export type Database = {
           },
         ]
       }
+      wizard_sessions: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          id: string
+          organization_id: string
+          result_data: Json | null
+          session_data: Json | null
+          started_at: string
+          status: string
+          summary: string | null
+          updated_at: string
+          user_id: string
+          wizard_type: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          organization_id: string
+          result_data?: Json | null
+          session_data?: Json | null
+          started_at?: string
+          status?: string
+          summary?: string | null
+          updated_at?: string
+          user_id: string
+          wizard_type: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          organization_id?: string
+          result_data?: Json | null
+          session_data?: Json | null
+          started_at?: string
+          status?: string
+          summary?: string | null
+          updated_at?: string
+          user_id?: string
+          wizard_type?: string
+        }
+        Relationships: []
+      }
       zoho_leads: {
         Row: {
           billing_interval: string
