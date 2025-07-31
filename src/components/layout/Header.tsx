@@ -50,7 +50,7 @@ export function Header() {
       <div className="flex items-center space-x-6 flex-1 max-w-2xl">
         <div className="flex items-center space-x-3">
           
-          />
+          
           <div className="hidden sm:block">
             <div className="flex items-center gap-2">
               <h1 className="text-lg font-bold font-montserrat bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
