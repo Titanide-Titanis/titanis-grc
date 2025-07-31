@@ -57,7 +57,6 @@ export function Header() {
           <div className="hidden sm:block">
             <div className="flex items-center gap-2">
               <h1 className="text-lg font-bold font-montserrat bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-                TITANIS™
               </h1>
               <span className="px-2 py-0.5 bg-secondary/20 text-secondary text-xs font-medium font-montserrat rounded-md border border-secondary/30">
                 BETA
@@ -69,7 +68,7 @@ export function Header() {
         <div className="relative w-full max-w-md">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search across TITANIS™ platform..."
+            placeholder="Search"
             className="pl-10 bg-muted/30 border-muted/50 focus:bg-background transition-colors"
           />
         </div>
