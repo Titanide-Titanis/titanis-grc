@@ -58,7 +58,7 @@ export function Sidebar({ activeTab, onTabChange }: SidebarProps) {
         {!isCollapsed && (
           <div className="flex items-center space-x-2">
             <div className="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden">
-              <img src="/assets/titanide-logo.png" alt="Titanide Consulting Group Logo" className="w-6 h-6 object-contain" />
+              <img src="https://www.titanideconsulting.com/Updated%20titanide%20logo-crown%20gold.png" alt="Titanide Consulting Group Logo" className="w-6 h-6 object-contain" />
             </div>
             <div>
               <span className="text-xl font-bold bg-gradient-to-r from-sidebar-primary to-sidebar-primary/70 bg-clip-text text-transparent">
