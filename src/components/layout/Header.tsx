@@ -62,7 +62,7 @@ export function Header() {
                 BETA
               </span>
             </div>
-            <p className="text-xs text-muted-foreground font-montserrat -mt-1">Built for Compliance Officers, for Compliance Officers</p>
+            <p className="text-xs text-muted-foreground font-montserrat -mt-1">Built for Compliance</p>
           </div>
         </div>
         <div className="relative w-full max-w-md">
