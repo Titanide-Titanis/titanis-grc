@@ -232,7 +232,7 @@ export default function Auth() {
           <div className="text-center lg:text-left">
             <div className="flex items-center justify-center lg:justify-start space-x-3 mb-6">
             <img 
-              src="/assets/titanide-logo.png" 
+              src="https://www.titanideconsulting.com/Updated%20titanide%20logo-crown%20gold.png" 
               alt="Titanide Logo" 
               className="w-12 h-12" 
             />
@@ -240,11 +240,11 @@ export default function Auth() {
                 <h1 className="text-5xl lg:text-7xl font-bold bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
                   TITANIS™
                 </h1>
-                <p className="text-sm text-muted-foreground -mt-1">Powered by Titanide</p>
+                <p className="text-sm text-muted-foreground -mt-1"></p>
               </div>
             </div>
             <p className="text-xl lg:text-2xl text-muted-foreground mb-8">
-              The Next Generation in Enterprise Governance, Risk & Compliance
+              Built for Compliance Officers, by Compliance Officers.
             </p>
             <div className="w-32 h-1 bg-gradient-to-r from-primary to-primary/50 mx-auto lg:mx-0 rounded-full"></div>
           </div>
@@ -257,7 +257,7 @@ export default function Auth() {
               <div>
                 <h3 className="font-semibold text-lg">Enterprise-Grade Security</h3>
                 <p className="text-muted-foreground">
-                  Protect your organization with advanced security measures—military-grade encryption, proactive threat monitoring, and robust audit trails.
+                  Empower your compliance strategy with next-generation security—automated oversight, secure data, and robust audit trails designed for evolving regulatory demands.
                 </p>
               </div>
             </div>
@@ -267,9 +267,9 @@ export default function Auth() {
                 <Users className="h-6 w-6 text-success" />
               </div>
               <div>
-                <h3 className="font-semibold text-lg">AI-Driven Access Control</h3>
+                <h3 className="font-semibold text-lg">Intelligent, Role-Based Access Control</h3>
                 <p className="text-muted-foreground">
-                  Experience intelligent role management, adaptive permissions, and seamless compliance automation—powered by next-generation AI.
+                  Seamlessly manage roles, permissions, and compliance with advanced AI-powered automation.
                 </p>
               </div>
             </div>
@@ -302,10 +302,10 @@ export default function Auth() {
           <div className="bg-gradient-to-r from-primary/10 to-transparent p-6 rounded-xl border border-primary/20">
             <div className="flex items-center space-x-3 mb-2">
               <Building2 className="h-5 w-5 text-primary" />
-              <span className="font-medium">Trusted by Industry Leaders</span>
+              <span className="font-medium">Built for Tomorrow’s Industry Leaders—Now in Beta</span>
             </div>
             <p className="text-sm text-muted-foreground">
-              Organizations across the healthcare spectrum, from FQHCs to Fortune 500 companies, rely on TITANIS™ for secure, intelligent, and transformative GRC operations.
+              Organizations across the healthcare spectrum—from FQHCs to Fortune 500s—are embracing TITANIS™ for secure, intelligent, and transformative GRC operations.
             </p>
           </div>
         </div>
