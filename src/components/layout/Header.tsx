@@ -49,10 +49,7 @@ export function Header() {
       {/* TITANIS™ Brand & Search */}
       <div className="flex items-center space-x-6 flex-1 max-w-2xl">
         <div className="flex items-center space-x-3">
-          <img 
-            src="https://www.titanideconsulting.com/Updated%20titanide%20logo-crown%20gold.png" 
-            alt="Titanide Consulting Group Logo" 
-            className="w-8 h-8 object-contain" 
+          
           />
           <div className="hidden sm:block">
             <div className="flex items-center gap-2">
